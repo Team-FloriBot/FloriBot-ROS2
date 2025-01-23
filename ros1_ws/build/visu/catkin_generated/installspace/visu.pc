@@ -1,0 +1,8 @@
+prefix=/home/jannis/flori2/ros1_ws/install
+
+Name: visu
+Description: Description of visu
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,0 +1,8 @@
+prefix=/home/jannis/flori2/ros1_ws/install
+
+Name: spray
+Description: Description of spray
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -24,7 +24,7 @@
   </include>
   
   <!-- Include Laserscanners -->
-  <!-- <include file="$(find sick_scan)/launch/sick_tim_5xx.launch"></include> -->
+  <include file="$(find sick_scan)/launch/sick_tim_5xx.launch"></include>
   
   <!-- Include RealSense Cameras -->
   <!-- <include file="$(find realsense2_camera)/launch/rs_camera.launch"></include> -->
@@ -36,14 +36,14 @@
   <include file="$(find base2gazebo)/launch/base2gazebo.launch"></include>
   
   <!-- Include scan_tools -->
-  <!--include file="$(find scan_tools)/launch/scan2cart.launch"></include-->
-  <!--include file="$(find scan_tools)/launch/cart_merger.launch"></include-->
+  <include file="$(find scan_tools)/launch/scan2cart.launch"></include>
+  <include file="$(find scan_tools)/launch/cart_merger.launch"></include>
   
   <!-- Include visu -->
-  <!--include file="$(find visu)/launch/rviz_visu.launch"></include-->
+  <include file="$(find visu)/launch/rviz_visu.launch"></include>
   
   <!-- Include navigation -->
-  <!--include file="$(find maize_navigation)/launch/maize_navigation.launch"></include-->
+  <include file="$(find maize_navigation)/launch/maize_navigation.launch"></include>
 
   
   <!--load FLORIBOT_PARAMETER-->
@@ -58,7 +58,7 @@
     <param name="publish_frequency" type="double" value="30.0" />
   </node>
 
-  <!--node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /-->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
 
   <!-- Init Controllers-->
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" args="gazebo/joint_state_controller gazebo/joint_fl_controller gazebo/joint_fr_controller gazebo/joint_rl_controller gazebo/joint_rr_controller gazebo/body_angle_controller" />

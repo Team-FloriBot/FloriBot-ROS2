@@ -1,0 +1,8 @@
+prefix=/home/jannis/flori2/ros1_ws/devel
+
+Name: baumer_radar_msgs
+Description: Description of baumer_radar_msgs
+Version: 0.0.0
+Cflags: -I/home/jannis/flori2/ros1_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: 
