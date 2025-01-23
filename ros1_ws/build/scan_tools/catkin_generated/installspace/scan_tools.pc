@@ -1,8 +1,0 @@
-prefix=/home/jannis/flori2/ros1_ws/install
-
-Name: scan_tools
-Description: Description of scan_tools
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

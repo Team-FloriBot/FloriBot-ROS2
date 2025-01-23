@@ -1,8 +1,0 @@
-prefix=/home/jannis/flori2/ros1_ws/install
-
-Name: base2gazebo
-Description: Description of base2gazebo
-Version: 0.0.0
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: message_runtime

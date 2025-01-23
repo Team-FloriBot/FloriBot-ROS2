@@ -1,8 +1,0 @@
-prefix=/home/jannis/flori2/ros1_ws/install
-
-Name: floribot_simulation
-Description: Description of floribot_simulation
-Version: 0.4.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: roscpp gazebo_ros
