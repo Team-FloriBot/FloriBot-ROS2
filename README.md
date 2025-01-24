@@ -19,8 +19,7 @@ git submodule update
 ```
 
 # Bauen der Bridge und Packages
-1. Löschen der build-, install- und log-Files im bridge_ws (falls vorhanden)
-2. Terminal 1:
+Terminal 1:
 ```
 cd ~
 ```
@@ -33,7 +32,7 @@ cd floribot/ros1_ws
 ```
 catkin_make
 ```
-3. Terminal 2:
+Terminal 2:
 ```
 cd ~
 ```
@@ -46,7 +45,7 @@ cd floribot/ros2_ws
 ```
 colcon build
 ```
-5. Terminal 3:
+Terminal 3:
 ```
 cd ~
 ```
