@@ -61,10 +61,10 @@ void AngleCallback(const sensor_msgs::JointState msg)
         Wheels_actual.header.stamp=ros::Time::now();
 
         //Body
-        Wheels_actual.frontLeft=msg.velocity[1];
-        Wheels_actual.frontRight=msg.velocity[2];
-        Wheels_actual.rearLeft=msg.velocity[3];
-        Wheels_actual.rearRight=msg.velocity[4];
+        Wheels_actual.front_left=msg.velocity[1];
+        Wheels_actual.front_right=msg.velocity[2];
+        Wheels_actual.rear_left=msg.velocity[3];
+        Wheels_actual.rear_right=msg.velocity[4];
 
         ActualSpeed.publish(Wheels_actual);
     }
