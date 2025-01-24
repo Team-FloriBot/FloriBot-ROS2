@@ -6,5 +6,9 @@ ros2_ws/build/
 ros2_ws/devel/
 ros2_ws/install/
 ros2_ws/log/
+bridge_ws/build/
+bridge_ws/devel/
+bridge_ws/install/
+bridge_wss/log/
 
 
