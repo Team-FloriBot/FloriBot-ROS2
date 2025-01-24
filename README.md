@@ -5,7 +5,7 @@ Dieser ist noch auf ROS 1 basierend.
 Mit jedem Commit wird das Repository stückweise auf ROS 2 umgeschrieben.
 
 # Klonen des Repository
-   'git clone https://github.com/Team-FloriBot/FloriBot-ROS2.git ~/floribot'
+   '''git clone https://github.com/Team-FloriBot/FloriBot-ROS2.git ~/floribot'''
    'cd ~/floribot'
    'git submodule init'
    'git submodule update'
