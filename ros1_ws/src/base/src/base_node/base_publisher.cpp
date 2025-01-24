@@ -17,18 +17,18 @@ void KinematicsPublisher::PublishSpeed(const ros::TimerEvent& e)
 
     tmp.header.stamp=ros::Time::now();
     tmp.header.seq=seq_++;
-    tmp.frontLeft=Speedmsg_.frontLeft;
-    tmp.frontRight=Speedmsg_.frontRight;
-    tmp.rearLeft=Speedmsg_.rearLeft;
-    tmp.rearLeft=Speedmsg_.rearRight;
+    tmp.frontLeft=Speedmsg_.front_left;
+    tmp.frontRight=Speedmsg_.front_right;
+    tmp.rearLeft=Speedmsg_.rear_left;
+    tmp.rearLeft=Speedmsg_.rear_right;
 
 
     SpeedPublisher_.publish(Speedmsg_);
 
-    Speedmsg_.frontLeft=0;
-    Speedmsg_.frontRight=0;    
-    Speedmsg_.rearRight=0;
-    Speedmsg_.rearLeft=0;
+    Speedmsg_.front_left=0;
+    Speedmsg_.front_right=0;    
+    Speedmsg_.rear_right=0;
+    Speedmsg_.rear_left=0;
 }
 
 void KinematicsPublisher::getParam()
@@ -52,11 +52,11 @@ void KinematicsPublisher::CmdVelCallback(const geometry_msgs::Twist::ConstPtr& m
 
     Wheelspeed=Drive_.inverseKinematics(*msg);
 
-    Speedmsg_.frontLeft=Wheelspeed.Front.leftWheel;
-    Speedmsg_.frontRight=Wheelspeed.Front.rightWheel;
+    Speedmsg_.front_left=Wheelspeed.Front.leftWheel;
+    Speedmsg_.front_right=Wheelspeed.Front.rightWheel;
 
-    Speedmsg_.rearLeft=Wheelspeed.Rear.leftWheel;
-    Speedmsg_.rearRight=Wheelspeed.Rear.rightWheel;
+    Speedmsg_.rear_left=Wheelspeed.Rear.leftWheel;
+    Speedmsg_.rear_right=Wheelspeed.Rear.rightWheel;
 }
 
 void KinematicsPublisher::SpeedCallback(const base::Wheels::ConstPtr &msg)
@@ -67,10 +67,10 @@ void KinematicsPublisher::SpeedCallback(const base::Wheels::ConstPtr &msg)
     nav_msgs::Odometry OdomMsg;
     tf2::Quaternion q;
 
-    ActualSpeed.Front.leftWheel=msg->frontLeft;
-    ActualSpeed.Front.rightWheel=msg->frontRight;
-    ActualSpeed.Rear.leftWheel=msg->rearLeft;
-    ActualSpeed.Rear.rightWheel=msg->rearRight;
+    ActualSpeed.Front.leftWheel=msg->front_left;
+    ActualSpeed.Front.rightWheel=msg->front_right;
+    ActualSpeed.Rear.leftWheel=msg->rear_left;
+    ActualSpeed.Rear.rightWheel=msg->rear_right;
 
     OdomPose=Drive_.forwardKinematics(ActualSpeed, msg->header.stamp );
 
