@@ -29,4 +29,4 @@ Mit jedem Commit wird das Repository stückweise auf ROS 2 umgeschrieben.
    'source /floribot/ros1_ws/devel/setup.bash'
    'source /floribot/ros2_ws/install/setup.bash'
    'cd floribot/bridge_ws'
-                 'colcon build --packages-select ros1_bridge --cmake-force-configure'
+   'colcon build --packages-select ros1_bridge --cmake-force-configure'
