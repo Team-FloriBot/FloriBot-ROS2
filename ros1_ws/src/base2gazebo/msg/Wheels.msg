@@ -1,5 +1,5 @@
-Header header
-float64 frontLeft
-float64 frontRight
-float64 rearLeft
-float64 rearRight
+std_msgs/Header header
+float64 front_left
+float64 front_right
+float64 rear_left
+float64 rear_right

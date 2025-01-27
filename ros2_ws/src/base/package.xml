@@ -16,7 +16,8 @@
 
   <export>
     <build_type>ament_cmake</build_type>
-    <ros1_bridge mapping_rules="mapping_rule_Wheels.yaml mapping_rule_Angle.yaml"/>
+    <ros1_bridge mapping_rules="mapping_rule_Wheels.yaml"/>
+    <ros1_bridge mapping_rules="mapping_rule_Angle.yaml"/>
 
   </export>
 </package>

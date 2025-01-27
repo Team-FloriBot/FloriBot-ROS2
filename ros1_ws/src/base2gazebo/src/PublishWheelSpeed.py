@@ -5,13 +5,13 @@ from std_msgs.msg import Float64
 def callback(data):
     # rospy.loginfo(rospy.get_caller_id() + "I heard %f", data.frontLeft)
     pub = rospy.Publisher('/gazebo/joint_fl_controller/command', Float64, queue_size=10)
-    pub.publish(data.frontLeft)
+    pub.publish(data.front_left)
     pub = rospy.Publisher('/gazebo/joint_fr_controller/command', Float64, queue_size=10)
-    pub.publish(data.frontRight)
+    pub.publish(data.front_right)
     pub = rospy.Publisher('/gazebo/joint_rl_controller/command', Float64, queue_size=10)
-    pub.publish(data.rearLeft)
+    pub.publish(data.rear_left)
     pub = rospy.Publisher('/gazebo/joint_rr_controller/command', Float64, queue_size=10)
-    pub.publish(data.rearRight)
+    pub.publish(data.rear_right)
 
     
 def listener():

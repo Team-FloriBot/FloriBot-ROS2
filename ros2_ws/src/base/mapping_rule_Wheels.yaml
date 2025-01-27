@@ -1,5 +1,5 @@
 -
   ros1_package_name: 'base'
-  ros1_message_name: 'Message'
+  ros1_message_name: 'Wheels'
   ros2_package_name: 'base'
-  ros2_message_name: 'Message'
+  ros2_message_name: 'Wheels'
