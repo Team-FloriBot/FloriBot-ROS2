@@ -30,8 +30,8 @@
   <!-- <include file="$(find realsense2_camera)/launch/rs_camera.launch"></include> -->
   
   <!-- Include Base Node -->
-  <include file="$(find base)/launch/base_node.launch"></include>
-  
+  <!--<include file="$(find base)/launch/base_node.launch"></include>-->
+
   <!-- Include Wheel Speed Publisher from Ros to Gazebo -->
   <include file="$(find base2gazebo)/launch/base2gazebo.launch"></include>
   
