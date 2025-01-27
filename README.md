@@ -67,3 +67,35 @@ cd floribot/bridge_ws
 ```
 colcon build --packages-select ros1_bridge --cmake-force-configure
 ```
+# Starten der Simulation
+Terminal 1:
+```
+. devel/setup.bash
+```
+```
+rosrun virtual_maize_field generate_world.py fre22_task_navigation_mini
+```
+```
+rosrun virtual_maize_field generate_world.py fre22_task_navigation_mini
+```
+```
+roslaunch floribot_simulation FloriBot.launch
+```
+Terminal 2:
+```
+. install/setup.bash
+```
+```
+ros2 launch base base_node.launch.py
+```
+Terminal 3:
+```
+. <workspace-parent-path>/bridge_ws/install/local_setup.bash
+```
+```
+ros2 run ros1_bridge dynamic_bridge --bridge-all-topics
+```
+
+
+
+
