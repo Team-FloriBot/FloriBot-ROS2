@@ -1,39 +1,32 @@
-#include "base_node/base_publisher.hpp"  // Stellen sicher, dass der Pfad stimmt
+#include "base_node/base_publisher.h"
 
 void ExitFcn();
 
+
 int main(int argc, char** argv)
 {
-    // ROS2 initialisieren
     rclcpp::init(argc, argv);
-
-    // ROS2-Node erstellen
+    auto node = std::make_shared<KinematicsPublisher>(kinematics::coordinate::Front);
+    std::atexit(ExitFcn);
+    
     try
     {
-        // Ein Knotenobjekt erstellen
-        rclcpp::NodeOptions options;
-        auto node = std::make_shared<rclcpp::Node>("Kinematics", options);
-
-        // KinematicsPublisher mit dem Knoten erstellen
-        KinematicsPublisher Pub(node, kinematics::coordinate::Front);
-
         // ROS2 spinnt den Knoten
         rclcpp::spin(node);
     }
     catch(const std::runtime_error& e)
     {
         // Fehlerbehandlung in ROS2
-        RCLCPP_ERROR(rclcpp::get_logger("Kinematics"), "Exiting with error:\n%s\n", e.what());
+        RCLCPP_ERROR(rclcpp::get_logger(node->get_name()), "Exiting with error:\n%s\n", e.what());
         return 1; // Exit mit Fehlercode
     }
 
     // Aufräumarbeiten bei normalem Abschluss
     rclcpp::shutdown();
-    return 0;
 }
 
+// ExitFcn gibt den Knotennamen aus, wenn das Programm beendet wird
 void ExitFcn()
 {
-    RCLCPP_ERROR(rclcpp::get_logger("Kinematics"), "Exiting Node: %s \n", rclcpp::get_node_name().c_str());
+    RCLCPP_ERROR(rclcpp::get_logger("Kinematics"), "Exiting Node: Kinematics");
 }
-

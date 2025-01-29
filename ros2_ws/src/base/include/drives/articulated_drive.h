@@ -3,6 +3,8 @@
 
 #include "drives/differential_drive.h"
 #include <rclcpp/rclcpp.hpp>  // ROS2 Header für Node und Zeit
+
+#include <rclcpp/time.hpp>
 #include <geometry_msgs/msg/twist.hpp>  // ROS2 Nachricht
 #include <geometry_msgs/msg/pose2_d.hpp>  // ROS2 Nachricht
 #include <geometry_msgs/msg/transform_stamped.hpp>  // ROS2 Nachricht
@@ -42,9 +44,9 @@ class ArticulatedDrive
 
     void setParam(double AxesLength, double WheelDiameter, coordinate Base);
     private:
-    
-    tf2_ros::Buffer tf_buffer_;
-    tf2_ros::TransformListener* pTF_Listener_;
+    std::shared_ptr<rclcpp::Clock> clock_;
+    std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
+    std::shared_ptr<tf2_ros::TransformListener> tf_listener_{nullptr};
     kinematics::coordinate Base_;
     kinematics::differentialDrive frontDrive_, rearDrive_;
     double frontlength_, rearlength_;

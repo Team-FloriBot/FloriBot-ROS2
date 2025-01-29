@@ -2,38 +2,42 @@
 #define KINEMATICS_PUBLISHER_H
 
 #include "drives/articulated_drive.h"
-#include <rclcpp/rclpcpp.h>
+#include <rclcpp/rclcpp.hpp>
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2_ros/transform_listener.h>
 #include <tf2/LinearMath/Quaternion.h>
-#include <geometry_msgs/pose_stamped.h>
-#include <base/angle.hpp>
-#include <nav_msgs/odometry.h>
+#include <geometry_msgs/msg/pose_stamped.hpp>
+#include <base/msg/angle.hpp>
+#include <nav_msgs/msg/odometry.hpp>
 
-#include <base/wheels.hpp>
+#include <base/msg/wheels.hpp>
 
 class KinematicsPublisher : public rclcpp::Node  // Vererbung von rclcpp::Node statt ros::NodeHandle
 {
 public:
-    KinematicsPublisher(std::shared_ptr<rclcpp::Node> pnh, kinematics::coordinate Base);
+    KinematicsPublisher(kinematics::coordinate Base);
     ~KinematicsPublisher();
 
 private:
     void getParam();
     void createPublisherSubscriber();    
-    void PublishSpeed(const rclcpp::TimerBase::SharedPtr e);  // TimerEvent in ROS2 ist TimerBase::SharedPtr
+    void PublishSpeed();  // TimerEvent in ROS2 ist TimerBase::SharedPtr
     void CmdVelCallback(const geometry_msgs::msg::Twist::SharedPtr msg);  // Änderung zu SharedPtr
-    void SpeedCallback(const base::Wheels::SharedPtr msg);  // Änderung zu SharedPtr
+    void SpeedCallback(const base::msg::Wheels::SharedPtr msg);  // Änderung zu SharedPtr
 
     kinematics::ArticulatedDrive Drive_;
-    base::Wheels Speedmsg_;
-    std::shared_ptr<rclcpp::Node> pNh_;  // NodeHandle wird durch Node ersetzt und als shared_ptr verwendet
+    base::msg::Wheels Speedmsg_;
+    //std::shared_ptr<rclcpp::Node> pNh_;  // NodeHandle wird durch Node ersetzt und als shared_ptr verwendet
+    
     rclcpp::TimerBase::SharedPtr CmdVelTimer_;  // Timer-Typen haben sich geändert
-    rclcpp::Publisher<base::Wheels>::SharedPtr SpeedPublisher_, OdometryPublisher_;  // Publisher-Typ geändert
-    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr CmdVelSubscriber_, SpeedSubscriber_;  // Subscriber-Typ geändert
-    tf2_ros::TransformBroadcaster TFBroadaster_;
+    rclcpp::Publisher<base::msg::Wheels>::SharedPtr SpeedPublisher_;  // Publisher-Typ geändert
+    rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr OdometryPublisher_;
+    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr CmdVelSubscriber_;  // Subscriber-Typ geändert
+    rclcpp::Subscription<base::msg::Wheels>::SharedPtr SpeedSubscriber_;
+
+    std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadaster_;
     double AxesLength_, WheelDiameter_;
-    unsigned int seq_;
+    
 };
 
 #endif

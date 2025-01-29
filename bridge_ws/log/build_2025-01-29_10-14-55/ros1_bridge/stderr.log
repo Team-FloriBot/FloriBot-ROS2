@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "bin/ros1_bridge_generate_factories", line 39, in <module>
+    sys.exit(main())
+  File "bin/ros1_bridge_generate_factories", line 29, in main
+    return generate_cpp(
+  File "/home/aaron/floribot/bridge_ws/src/ros1_bridge/ros1_bridge/__init__.py", line 70, in generate_cpp
+    data = generate_messages(rospack)
+  File "/home/aaron/floribot/bridge_ws/src/ros1_bridge/ros1_bridge/__init__.py", line 164, in generate_messages
+    ros2_package_names, ros2_msgs, mapping_rules = get_ros2_messages()
+  File "/home/aaron/floribot/bridge_ws/src/ros1_bridge/ros1_bridge/__init__.py", line 280, in get_ros2_messages
+    with open(rule_file, 'r') as h:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aaron/floribot/ros2_ws/install/base/share/base/mapping_rule_Wheels.yaml'
+make[2]: *** [CMakeFiles/ros1_bridge.dir/build.make:68: generated/get_factory.cpp] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [CMakeFiles/Makefile2:260: CMakeFiles/ros1_bridge.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2

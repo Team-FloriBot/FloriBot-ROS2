@@ -1,8 +1,8 @@
-import launch
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, LogInfo, PushRosNamespace
-from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument, LogInfo
+from launch.substitutions import LaunchConfiguration, TextSubstitution
 from launch_ros.actions import Node
+from launch.conditions import IfCondition
 
 def generate_launch_description():
     # Argumente definieren
@@ -11,19 +11,18 @@ def generate_launch_description():
         DeclareLaunchArgument('rearLength', default_value='-0.38'),
         DeclareLaunchArgument('wheelDiameter', default_value='0.280'),
         DeclareLaunchArgument('axesLength', default_value='0.335'),
-
+        
         # Knoten: base_node
         Node(
             package='base',
             executable='base_node',
             name='base',
             output='screen',
-            parameters=[{
-                'wheelDiameter': LaunchConfiguration('wheelDiameter'),
-                'axesLength': LaunchConfiguration('axesLength'),
-            }]
+            parameters=[
+                {'wheelDiameter': -0.38},
+                {'axesLength': -0.38}
+            ]
         ),
-        
         # tf2 static_transform_publisher Knoten
         Node(
             package='tf2_ros',
@@ -47,10 +46,6 @@ def generate_launch_description():
             arguments=['0', '0', '0', '0', '0', '0', '1', 'base_link', 'axesFront']
         ),
         
-        # Remapping
-        LogInfo(
-            condition=LaunchConfiguration('remap') == 'true',
-            msg="Remapping topics"
-        ),
+
     ])
 

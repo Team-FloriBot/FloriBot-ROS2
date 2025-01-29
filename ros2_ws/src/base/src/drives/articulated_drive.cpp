@@ -1,5 +1,6 @@
 #include "drives/articulated_drive.h"
 #include <rclcpp/rclcpp.hpp>
+#include <rclcpp/time.hpp>
 #include <tf2_ros/transform_listener.h>
 #include <geometry_msgs/msg/twist.hpp>
 #include <geometry_msgs/msg/pose2_d.hpp>
@@ -10,22 +11,22 @@
 
 kinematics::ArticulatedDrive::ArticulatedDrive()
 {
-    tf_buffer_(this->get_clock());
-    pTF_Listener_=new tf2_ros::TransformListener(tf_buffer_);
+    clock_ = std::make_shared<rclcpp::Clock>(RCL_SYSTEM_TIME);
+    tf_buffer_ = std::make_unique<tf2_ros::Buffer>(clock_);
+    tf_listener_= std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 }
 
 
 kinematics::ArticulatedDrive::ArticulatedDrive(double axesLength, double wheelDiameter, coordinate Base):
         frontDrive_(axesLength, wheelDiameter), rearDrive_(axesLength, wheelDiameter), Base_(Base)
         {
-            pTF_Listener_=new tf2_ros::TransformListener(tf_buffer_);
+            clock_ = std::make_shared<rclcpp::Clock>(RCL_SYSTEM_TIME);
+            tf_buffer_ = std::make_unique<tf2_ros::Buffer>(clock_);
+            tf_listener_= std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
         }
 
 
-kinematics::ArticulatedDrive::~ArticulatedDrive() 
-{
-    delete pTF_Listener_;
-}
+kinematics::ArticulatedDrive::~ArticulatedDrive() {}
 
 kinematics::articulatedWheelSpeed kinematics::ArticulatedDrive::inverseKinematics(geometry_msgs::msg::Twist cmdVelMsg)
 {
@@ -48,9 +49,9 @@ kinematics::articulatedWheelSpeed kinematics::ArticulatedDrive::inverseKinematic
         case coordinate::Front:
             //Get latest Transforms
 
-            Axes2Joint=tf_buffer_.lookupTransform("jointFront", "axesFront", rclcpp::Time(0));
-            Joint2Joint=tf_buffer_.lookupTransform("jointRear", "jointFront", rclcpp::Time(0));
-            Joint2Axes=tf_buffer_.lookupTransform("axesRear", "jointRear", rclcpp::Time(0));
+            Axes2Joint=tf_buffer_->lookupTransform("jointFront", "axesFront", rclcpp::Time(0));
+            Joint2Joint=tf_buffer_->lookupTransform("jointRear", "jointFront", rclcpp::Time(0));
+            Joint2Axes=tf_buffer_->lookupTransform("axesRear", "jointRear", rclcpp::Time(0));
 
             //Get Data from the Messages, since the tf2::fromMsg-Function returns Linking-Errors with workaround
             SpeedAxesFront.setValue(cmdVelMsg.linear.x,cmdVelMsg.linear.y,cmdVelMsg.linear.z);
@@ -91,9 +92,9 @@ kinematics::articulatedWheelSpeed kinematics::ArticulatedDrive::inverseKinematic
         case coordinate::Rear:
 
             //Get latest Transforms
-            Axes2Joint=tf_buffer_.lookupTransform("jointRear", "axesRear", rclcpp::Time(0));
-            Joint2Joint=tf_buffer_.lookupTransform("jointFront", "jointRear", rclcpp::Time(0));
-            Joint2Axes=tf_buffer_.lookupTransform("axesFront", "jointFront", rclcpp::Time(0));
+            Axes2Joint=tf_buffer_->lookupTransform("jointRear", "axesRear", rclcpp::Time(0));
+            Joint2Joint=tf_buffer_->lookupTransform("jointFront", "jointRear", rclcpp::Time(0));
+            Joint2Axes=tf_buffer_->lookupTransform("axesFront", "jointFront", rclcpp::Time(0));
 
             //Get Data from the Messages, since the tf2::fromMsg-Function returns Linking-Errors with workaround
             SpeedAxesRear.setValue(cmdVelMsg.linear.x,cmdVelMsg.linear.y,cmdVelMsg.linear.z);
@@ -135,7 +136,7 @@ kinematics::articulatedWheelSpeed kinematics::ArticulatedDrive::inverseKinematic
     }
     catch(tf2::TransformException &e)
     {
-        ROS_ERROR("tf not connected! Can not calculate Transform");
+        RCLCPP_ERROR(rclcpp::get_logger("global_logger"), "tf not connected! Can not calculate Transform");
         retVal.Front.leftWheel=0;
         retVal.Front.rightWheel=0;
         retVal.Rear.leftWheel=0;

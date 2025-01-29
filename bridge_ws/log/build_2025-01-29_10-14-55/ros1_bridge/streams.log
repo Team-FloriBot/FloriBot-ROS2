@@ -1,0 +1,95 @@
+[0.026s] Invoking command in '/home/aaron/floribot/bridge_ws/build/ros1_bridge': CMAKE_PREFIX_PATH=/home/aaron/floribot/ros2_ws/install/base:/opt/ros/foxy:/home/aaron/floribot/ros1_ws/devel:/opt/ros/noetic /usr/bin/cmake /home/aaron/floribot/bridge_ws/src/ros1_bridge -DCMAKE_INSTALL_PREFIX=/home/aaron/floribot/bridge_ws/install/ros1_bridge
+[0.054s] -- Found rmw: 1.0.4 (/opt/ros/foxy/share/rmw/cmake)
+[0.085s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[0.085s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[0.404s] -- Found rclcpp: 2.4.3 (/opt/ros/foxy/share/rclcpp/cmake)
+[0.431s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.436s] -- Found rosidl_adapter: 1.3.1 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[0.604s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.671s] -- Found rmw_implementation_cmake: 1.0.4 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+[0.673s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.906s] -- Found ament_lint_auto: 0.9.8 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[1.908s] -- Found diagnostic_msgs: 2.0.5 (/opt/ros/foxy/share/diagnostic_msgs/cmake)
+[2.103s] -- Found python_cmake_module: 0.8.1 (/opt/ros/foxy/share/python_cmake_module/cmake)
+[2.133s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3.5") 
+[2.136s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[2.136s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.8
+[2.136s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.8.so
+[2.181s] -- Added test 'copyright' to check source files copyright and LICENSE
+[2.186s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[2.186s] -- Configured cppcheck include dirs: 
+[2.186s] -- Configured cppcheck exclude dirs and/or files: 
+[2.190s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[2.190s] -- Configured cpplint exclude dirs and/or files: 
+[2.191s] -- Added test 'flake8' to check Python code syntax and style conventions
+[2.193s] -- Added test 'lint_cmake' to check CMake code style
+[2.194s] -- Added test 'pep257' to check Python code against some of the style conventions in PEP 257
+[2.198s] -- Added test 'uncrustify' to check C / C++ code style
+[2.198s] -- Configured uncrustify additional arguments: 
+[2.199s] -- Added test 'xmllint' to check XML markup files
+[2.256s] -- Found base: 0.0.0 (/home/aaron/floribot/ros2_ws/install/base/share/base/cmake)
+[2.310s] -- Found action_msgs: 1.0.0 (/opt/ros/foxy/share/action_msgs/cmake)
+[2.394s] -- Found action_tutorials_interfaces: 0.9.4 (/opt/ros/foxy/share/action_tutorials_interfaces/cmake)
+[2.449s] -- Found actionlib_msgs: 2.0.5 (/opt/ros/foxy/share/actionlib_msgs/cmake)
+[2.450s] -- Found builtin_interfaces: 1.0.0 (/opt/ros/foxy/share/builtin_interfaces/cmake)
+[2.495s] -- Found composition_interfaces: 1.0.0 (/opt/ros/foxy/share/composition_interfaces/cmake)
+[2.970s] -- Found control_msgs: 2.5.1 (/opt/ros/foxy/share/control_msgs/cmake)
+[2.971s] -- Found diagnostic_msgs: 2.0.5 (/opt/ros/foxy/share/diagnostic_msgs/cmake)
+[3.054s] -- Found example_interfaces: 0.9.1 (/opt/ros/foxy/share/example_interfaces/cmake)
+[3.241s] -- Found gazebo_msgs: 3.5.3 (/opt/ros/foxy/share/gazebo_msgs/cmake)
+[3.243s] -- Found geometry_msgs: 2.0.5 (/opt/ros/foxy/share/geometry_msgs/cmake)
+[3.244s] -- Found libstatistics_collector: 1.0.2 (/opt/ros/foxy/share/libstatistics_collector/cmake)
+[3.262s] -- Found lifecycle_msgs: 1.0.0 (/opt/ros/foxy/share/lifecycle_msgs/cmake)
+[3.277s] -- Found logging_demo: 0.9.4 (/opt/ros/foxy/share/logging_demo/cmake)
+[3.745s] -- Found map_msgs: 2.0.2 (/opt/ros/foxy/share/map_msgs/cmake)
+[3.746s] -- Found nav_msgs: 2.0.5 (/opt/ros/foxy/share/nav_msgs/cmake)
+[3.907s] -- Found pcl_msgs: 1.0.0 (/opt/ros/foxy/share/pcl_msgs/cmake)
+[3.931s] -- Found pendulum_msgs: 0.9.4 (/opt/ros/foxy/share/pendulum_msgs/cmake)
+[3.931s] -- Found rcl_interfaces: 1.0.0 (/opt/ros/foxy/share/rcl_interfaces/cmake)
+[3.953s] -- Found rmw_dds_common: 1.0.3 (/opt/ros/foxy/share/rmw_dds_common/cmake)
+[3.953s] -- Found rosgraph_msgs: 1.0.0 (/opt/ros/foxy/share/rosgraph_msgs/cmake)
+[3.954s] -- Found sensor_msgs: 2.0.5 (/opt/ros/foxy/share/sensor_msgs/cmake)
+[4.046s] -- Found shape_msgs: 2.0.5 (/opt/ros/foxy/share/shape_msgs/cmake)
+[4.046s] -- Found statistics_msgs: 1.0.0 (/opt/ros/foxy/share/statistics_msgs/cmake)
+[4.047s] -- Found std_msgs: 2.0.5 (/opt/ros/foxy/share/std_msgs/cmake)
+[4.067s] -- Found std_srvs: 2.0.5 (/opt/ros/foxy/share/std_srvs/cmake)
+[4.230s] -- Found stereo_msgs: 2.0.5 (/opt/ros/foxy/share/stereo_msgs/cmake)
+[4.418s] -- Found tf2_msgs: 0.13.14 (/opt/ros/foxy/share/tf2_msgs/cmake)
+[4.419s] -- Found trajectory_msgs: 2.0.5 (/opt/ros/foxy/share/trajectory_msgs/cmake)
+[4.502s] -- Found turtlesim: 1.2.6 (/opt/ros/foxy/share/turtlesim/cmake)
+[4.503s] -- Found unique_identifier_msgs: 2.1.3 (/opt/ros/foxy/share/unique_identifier_msgs/cmake)
+[4.609s] -- Found visualization_msgs: 2.0.5 (/opt/ros/foxy/share/visualization_msgs/cmake)
+[5.145s] -- Configuring done
+[6.111s] -- Generating done
+[6.458s] -- Build files have been written to: /home/aaron/floribot/bridge_ws/build/ros1_bridge
+[6.475s] Invoked command in '/home/aaron/floribot/bridge_ws/build/ros1_bridge' returned '0': CMAKE_PREFIX_PATH=/home/aaron/floribot/ros2_ws/install/base:/opt/ros/foxy:/home/aaron/floribot/ros1_ws/devel:/opt/ros/noetic /usr/bin/cmake /home/aaron/floribot/bridge_ws/src/ros1_bridge -DCMAKE_INSTALL_PREFIX=/home/aaron/floribot/bridge_ws/install/ros1_bridge
+[6.482s] Invoking command in '/home/aaron/floribot/bridge_ws/build/ros1_bridge': CMAKE_PREFIX_PATH=/home/aaron/floribot/ros2_ws/install/base:/opt/ros/foxy:/home/aaron/floribot/ros1_ws/devel:/opt/ros/noetic /usr/bin/cmake --build /home/aaron/floribot/bridge_ws/build/ros1_bridge -- -j4 -l4
+[6.618s] [  1%] Built target test_ros1_server
+[6.618s] [  1%] Built target test_ros1_client
+[6.637s] [  3%] Built target simple_bridge_2_to_1
+[6.639s] [  3%] Built target simple_bridge_1_to_2
+[6.697s] [  4%] Built target test_ros2_server_cpp
+[6.711s] [  5%] Built target test_ros2_client_cpp
+[6.715s] [  5%] Built target simple_bridge
+[7.377s] [35m[1mScanning dependencies of target ros1_bridge[0m
+[9.147s] [  5%] [32mBuilding CXX object CMakeFiles/ros1_bridge.dir/src/builtin_interfaces_factories.cpp.o[0m
+[9.155s] [  6%] [32mBuilding CXX object CMakeFiles/ros1_bridge.dir/src/convert_builtin_interfaces.cpp.o[0m
+[9.165s] [  6%] [32mBuilding CXX object CMakeFiles/ros1_bridge.dir/src/bridge.cpp.o[0m
+[9.167s] [  6%] [34m[1mGenerating factories for interface types[0m
+[10.362s] Traceback (most recent call last):
+[10.362s]   File "bin/ros1_bridge_generate_factories", line 39, in <module>
+[10.363s]     sys.exit(main())
+[10.363s]   File "bin/ros1_bridge_generate_factories", line 29, in main
+[10.363s]     return generate_cpp(
+[10.363s]   File "/home/aaron/floribot/bridge_ws/src/ros1_bridge/ros1_bridge/__init__.py", line 70, in generate_cpp
+[10.363s]     data = generate_messages(rospack)
+[10.363s]   File "/home/aaron/floribot/bridge_ws/src/ros1_bridge/ros1_bridge/__init__.py", line 164, in generate_messages
+[10.363s]     ros2_package_names, ros2_msgs, mapping_rules = get_ros2_messages()
+[10.364s]   File "/home/aaron/floribot/bridge_ws/src/ros1_bridge/ros1_bridge/__init__.py", line 280, in get_ros2_messages
+[10.364s]     with open(rule_file, 'r') as h:
+[10.364s] FileNotFoundError: [Errno 2] No such file or directory: '/home/aaron/floribot/ros2_ws/install/base/share/base/mapping_rule_Wheels.yaml'
+[10.519s] make[2]: *** [CMakeFiles/ros1_bridge.dir/build.make:68: generated/get_factory.cpp] Error 1
+[10.519s] make[2]: *** Waiting for unfinished jobs....
+[21.529s] make[1]: *** [CMakeFiles/Makefile2:260: CMakeFiles/ros1_bridge.dir/all] Error 2
+[21.529s] make: *** [Makefile:141: all] Error 2
+[21.534s] Invoked command in '/home/aaron/floribot/bridge_ws/build/ros1_bridge' returned '2': CMAKE_PREFIX_PATH=/home/aaron/floribot/ros2_ws/install/base:/opt/ros/foxy:/home/aaron/floribot/ros1_ws/devel:/opt/ros/noetic /usr/bin/cmake --build /home/aaron/floribot/bridge_ws/build/ros1_bridge -- -j4 -l4
