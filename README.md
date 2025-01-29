@@ -5,7 +5,7 @@ Die folgende Tabelle gibt einen Überblick über den aktuellen Stand der Migrati
 | Paket                 | Status         | Bemerkungen                                    |
 |-----------------------|--------------------|--------------------------------------------|
 | base                  | ⏳ In Arbeit       | Teilweise migriert, Tests laufen           |
-| base2gazebo           | ❌ Nicht gestartet |                                            |
+| base2gazebo           | ⏳ In Arbeit |                                            |
 | maize_navigation      | ❌ Nicht gestartet |                                            |
 | PointCloudTransformer | ❌ Nicht gestartet |                                            |
 | FieldRobotNavigator   | ❌ Nicht gestartet |                                            |
