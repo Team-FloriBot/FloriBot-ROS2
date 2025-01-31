@@ -33,7 +33,7 @@ cd ~
 source /opt/ros/noetic/setup.bash
 ```
 ```
-cd floribot/ros1_ws
+cd ~/floribot/ros1_ws
 ```
 ```
 catkin_make
@@ -46,10 +46,10 @@ cd ~
 source /opt/ros/foxy/setup.bash
 ```
 ```
-cd floribot/ros2_ws
+cd ~/floribot/ros2_ws
 ```
 ```
-colcon build
+colcon build --symlink-install
 ```
 Terminal 3:
 ```
@@ -62,13 +62,13 @@ source /opt/ros/noetic/setup.bash
 source /opt/ros/foxy/setup.bash
 ```
 ```
-source /floribot/ros1_ws/devel/setup.bash
+source ~/floribot/ros1_ws/devel/setup.bash
 ```
 ```
-source /floribot/ros2_ws/install/setup.bash
+source ~/floribot/ros2_ws/install/setup.bash
 ```
 ```
-cd floribot/bridge_ws
+cd ~/floribot/bridge_ws
 ```
 ```
 colcon build --packages-select ros1_bridge --cmake-force-configure
@@ -82,9 +82,6 @@ Terminal 1:
 rosrun virtual_maize_field generate_world.py fre22_task_navigation_mini
 ```
 ```
-rosrun virtual_maize_field generate_world.py fre22_task_navigation_mini
-```
-```
 roslaunch floribot_simulation FloriBot.launch
 ```
 Terminal 2:
@@ -92,11 +89,11 @@ Terminal 2:
 . install/setup.bash
 ```
 ```
-ros2 launch base base_node.launch.py
+ros2 launch floribot_simulation FloriBot.launch.py
 ```
 Terminal 3:
 ```
-. <workspace-parent-path>/bridge_ws/install/local_setup.bash
+. install/local_setup.bash
 ```
 ```
 ros2 run ros1_bridge dynamic_bridge --bridge-all-topics
