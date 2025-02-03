@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from base2gazebo.msg import Wheels
+from base.msg import Wheels
 from std_msgs.msg import Float64
 
 class WheelSpeedPublisher(Node):
@@ -19,11 +19,21 @@ class WheelSpeedPublisher(Node):
         self.create_subscription(Wheels, '/engine/targetSpeed', self.callback, 10)
 
     def callback(self, data):
-        # Publizieren der Werte für jede Achse
-        self.pub_fl.publish(Float64(data.front_left))
-        self.pub_fr.publish(Float64(data.front_right))
-        self.pub_rl.publish(Float64(data.rear_left))
-        self.pub_rr.publish(Float64(data.rear_right))
+        msg_fl = Float64()
+        msg_fl.data = data.front_left
+        self.pub_fl.publish(msg_fl)
+
+        msg_fr = Float64()
+        msg_fr.data = data.front_right
+        self.pub_fr.publish(msg_fr)
+
+        msg_rl = Float64()
+        msg_rl.data = data.rear_left
+        self.pub_rl.publish(msg_rl)
+
+        msg_rr = Float64()
+        msg_rr.data = data.rear_right
+        self.pub_rr.publish(msg_rr)
 
 def main(args=None):
     rclpy.init(args=args)

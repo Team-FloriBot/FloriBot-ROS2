@@ -8,7 +8,7 @@ def generate_launch_description():
     return LaunchDescription([
         Node(
             package='base2gazebo',
-            executable='PublishWheelSpeed.py',
+            executable='PublishWheelSpeed',
             name='base2gazebo',
             output='screen'
         ),
