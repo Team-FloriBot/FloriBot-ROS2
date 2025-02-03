@@ -23,7 +23,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-        	'cart_merger = scan_tools.cart_merger:main', 
+        	'cart_merger = scan_tools.cart_merger:main',
+            'scan2cart = scan_tools.scan2cart:main',
         ],
     },
 )

@@ -11,4 +11,11 @@ def generate_launch_description():
             # Optional: Falls du den Parameter für den tf frame hinzufügen möchtest
             # parameters=[{'merge_frame': 'base_link'}]
         ),
+         Node(
+            package='scan_tools',
+            executable='scan2cart',
+            name='scan2cart',
+            # Optional: Falls du den Parameter für den tf frame hinzufügen möchtest
+            # parameters=[{'merge_frame': 'base_link'}]
+        ),
     ])
