@@ -5,8 +5,7 @@ Die folgende Tabelle gibt einen Überblick über den aktuellen Stand der Migrati
 | Paket                 | Status             | Bemerkungen                                   | Branch           |Wer        |
 |-----------------------|--------------------|-----------------------------------------------|------------------|-----------|
 | base                  | ✅Fertig           | vollständig migriert                          | base_ros2        | Aaron    |
-| base2gazebo           | ✅Fertig           | vollständig migriert                          | base2gazebo_ros2 | Jannis   |
-| cart_merger           | ✅Fertig           | vollständig migriert                          | base2gazebo_ros2 | Jannis   |
+| base2gazebo           | ✅Fertig           | vollständig migriert                          | base2gazebo_ros2 | Jannis & Aaron  |
 | scan2cart             | ⏳ In Arbeit       |                                               | base_ros2        | Jannis    |
 | maize_navigation      | ⏳ In Arbeit       |                                               |                  | Aaron    |
 | Floribot_simulation   | ⏳ In Arbeit        |                                               | base2gazebo_ros2 |          |
