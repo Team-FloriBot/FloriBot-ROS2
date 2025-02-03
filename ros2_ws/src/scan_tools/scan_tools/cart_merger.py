@@ -5,7 +5,9 @@ from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener
 from sensor_msgs.msg import PointCloud2
 from sensor_msgs_py import point_cloud2
-import geometry_msgs.msg
+import PyKDL
+from sensor_msgs_py.point_cloud2 import create_cloud, read_points, create_cloud_xyz32
+#
 
 
 class PointCloudTransformer(Node):
@@ -31,7 +33,7 @@ class PointCloudTransformer(Node):
             transform = self.tf_buffer.lookup_transform(merge_frame, cloud_msg.header.frame_id, rclpy.time.Time())
             
             # Transformiere die Punktwolke manuell
-            transformed_cloud_msg = self.transform_cloud(cloud_msg, transform)
+            transformed_cloud_msg = self.do_transform_cloud(cloud_msg, transform)
             transformed_cloud_msg.header.frame_id = merge_frame
             self.front_points = transformed_cloud_msg
             self.check_and_publish()
@@ -44,35 +46,30 @@ class PointCloudTransformer(Node):
             transform = self.tf_buffer.lookup_transform(merge_frame, cloud_msg.header.frame_id, rclpy.time.Time())
             
             # Transformiere die Punktwolke manuell
-            transformed_cloud_msg = self.transform_cloud(cloud_msg, transform)
+            transformed_cloud_msg = self.do_transform_cloud(cloud_msg, transform)
             transformed_cloud_msg.header.frame_id = merge_frame
             self.rear_points = transformed_cloud_msg
             self.check_and_publish()
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as e:
             self.get_logger().warn('Error transforming point cloud: %s' % e)
 
-    def transform_cloud(self, cloud_msg, transform):
-        # Durchlaufe alle Punkte in der PointCloud2-Nachricht
-        points = list(point_cloud2.read_points(cloud_msg, field_names=("x", "y", "z"), skip_nans=True))
+    def transform_to_kdl(self, t):
+        return PyKDL.Frame(PyKDL.Rotation.Quaternion(
+            t.transform.rotation.x, t.transform.rotation.y,
+            t.transform.rotation.z, t.transform.rotation.w),
+            PyKDL.Vector(t.transform.translation.x,
+                        t.transform.translation.y,
+                        t.transform.translation.z))
         
-        # Erstelle eine neue Liste für die transformierten Punkte
-        transformed_points = []
-        
-        for point in points:
-            # Transformiere jeden Punkt
-            point_msg = geometry_msgs.msg.PointStamped()
-            point_msg.header = cloud_msg.header
-            point_msg.point.x = point[0]
-            point_msg.point.y = point[1]
-            point_msg.point.z = point[2]
-            
-            # Transformiere den Punkt
-            transformed_point_msg = self.tf_buffer.transform(point_msg, transform.header.frame_id)
-            transformed_points.append([transformed_point_msg.point.x, transformed_point_msg.point.y, transformed_point_msg.point.z])
-        
-        # Erstelle eine neue PointCloud2-Nachricht mit den transformierten Punkten
-        transformed_cloud = point_cloud2.create_cloud_xyz32(cloud_msg.header, transformed_points)
-        return transformed_cloud
+    def do_transform_cloud(self, cloud, transform):
+        t_kdl = self.transform_to_kdl(transform)
+        points_out = []
+        for p_in in read_points(cloud, field_names=("x", "y", "z")):
+            p_out = t_kdl * PyKDL.Vector(p_in[0], p_in[1], p_in[2])
+            points_out.append([p_out[0], p_out[1], p_out[2]])
+        res = create_cloud_xyz32(transform.header, points_out)
+        return res
+
 
     def check_and_publish(self):
         if self.front_points is not None and self.rear_points is not None:
@@ -97,12 +94,18 @@ def main(args=None):
     rclpy.init(args=args)
     node = PointCloudTransformer()
 
-    # Set default parameter for merge_frame
+   # Logge, ob der Node erfolgreich initialisiert wurde
+    node.get_logger().info('Node erfolgreich gestartet')
+
     node.declare_parameter('merge_frame', 'front_laser')
 
-    rclpy.spin(node)
-    rclpy.shutdown()
-
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        node.get_logger().info('Node wurde durch den Benutzer unterbrochen')
+    finally:
+        rclpy.shutdown()
+        node.get_logger().info('ROS2 shutdown abgeschlossen')
 
 if __name__ == '__main__':
     main()

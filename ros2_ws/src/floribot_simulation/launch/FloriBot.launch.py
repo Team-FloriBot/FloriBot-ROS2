@@ -47,6 +47,11 @@ def generate_launch_description():
                 get_package_share_directory('base'), 'launch'),
                 '/base_node.launch.py'])
         ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([os.path.join(
+                get_package_share_directory('scan_tools'), 'launch'),
+                '/cart_merger.launch.py'])
+        ),
         #IncludeLaunchDescription(get_package_share_directory('sick_scan_xd') + '/launch/sick_tim_5xx.launch.py'),
 
         # Start robot_state_publisher

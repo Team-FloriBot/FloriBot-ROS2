@@ -37,7 +37,7 @@
   
   <!-- Include scan_tools -->
   <include file="$(find scan_tools)/launch/scan2cart.launch"></include>
-  <include file="$(find scan_tools)/launch/cart_merger.launch"></include>
+  <!--include file="$(find scan_tools)/launch/cart_merger.launch"></include-->
   
   <!-- Include visu -->
   <include file="$(find visu)/launch/rviz_visu.launch"></include>
