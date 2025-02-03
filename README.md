@@ -4,11 +4,11 @@ Die folgende Tabelle gibt einen Überblick über den aktuellen Stand der Migrati
 
 | Paket                 | Status             | Bemerkungen                                   | Branch           |Wer        |
 |-----------------------|--------------------|-----------------------------------------------|------------------|-----------|
-| base                  | ⏳ In Arbeit       | vollständig migriert, funktioniert teilweise  | base_ros2         | Aaron    |
-| base2gazebo           | ⏳ In Arbeit       |                                               | base2gazebo_ros2  | Jannis   |
-| maize_navigation      | ❌ Nicht gestartet |                                               |                   |          |
-| PointCloudTransformer | ⏳ In Arbeit       |                                               | base_ros2         | Aaron    |
-| FieldRobotNavigator   | ❌ Nicht gestartet |                                               |                   |          |
+| base                  | ⏳ In Arbeit       | vollständig migriert, funktioniert teilweise  | base_ros2        | Aaron    |
+| base2gazebo           | ⏳ In Arbeit       |                                               | base2gazebo_ros2 | Jannis   |
+| PointCloudTransformer | ⏳ In Arbeit       |                                               | base_ros2        | Aaron    |
+| FieldRobotNavigator   | ❌ Nicht gestartet |                                               |                  | Aaron    |
+| LaserScan2PointCloud  | ❌ Nicht gestartet |                                               | base2gazebo_ros2 |          |
 
 # Klonen des Repository
 ```bash
