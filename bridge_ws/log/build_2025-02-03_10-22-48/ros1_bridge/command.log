@@ -1,0 +1,4 @@
+Invoking command in '/home/jorth/floribot/bridge_ws/build/ros1_bridge': CMAKE_PREFIX_PATH=/opt/ros/foxy:${CMAKE_PREFIX_PATH} /usr/bin/cmake /home/jorth/floribot/bridge_ws/src/ros1_bridge -DCMAKE_INSTALL_PREFIX=/home/jorth/floribot/bridge_ws/install/ros1_bridge
+Invoked command in '/home/jorth/floribot/bridge_ws/build/ros1_bridge' returned '0': CMAKE_PREFIX_PATH=/opt/ros/foxy:${CMAKE_PREFIX_PATH} /usr/bin/cmake /home/jorth/floribot/bridge_ws/src/ros1_bridge -DCMAKE_INSTALL_PREFIX=/home/jorth/floribot/bridge_ws/install/ros1_bridge
+Invoking command in '/home/jorth/floribot/bridge_ws/build/ros1_bridge': CMAKE_PREFIX_PATH=/opt/ros/foxy:${CMAKE_PREFIX_PATH} /usr/bin/cmake --build /home/jorth/floribot/bridge_ws/build/ros1_bridge -- -j16 -l16
+Invoked command in '/home/jorth/floribot/bridge_ws/build/ros1_bridge' returned '2': CMAKE_PREFIX_PATH=/opt/ros/foxy:${CMAKE_PREFIX_PATH} /usr/bin/cmake --build /home/jorth/floribot/bridge_ws/build/ros1_bridge -- -j16 -l16

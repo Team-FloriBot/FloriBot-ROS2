@@ -1,0 +1,17 @@
+/usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::get_service_factory_controller_manager_msgs(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
+/usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::get_factory_controller_manager_msgs(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/parameter_bridge.dir/build.make:343: parameter_bridge] Error 1
+make[1]: *** [CMakeFiles/Makefile2:314: CMakeFiles/parameter_bridge.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+/usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::get_service_factory_controller_manager_msgs(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
+/usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::get_factory_controller_manager_msgs(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/dynamic_bridge.dir/build.make:343: dynamic_bridge] Error 1
+make[1]: *** [CMakeFiles/Makefile2:341: CMakeFiles/dynamic_bridge.dir/all] Error 2
+/usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::get_service_factory_controller_manager_msgs(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
+/usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::get_factory_controller_manager_msgs(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/static_bridge.dir/build.make:343: static_bridge] Error 1
+make[1]: *** [CMakeFiles/Makefile2:233: CMakeFiles/static_bridge.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2

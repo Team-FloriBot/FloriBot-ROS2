@@ -1,0 +1,17 @@
+/usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::Factory<controller_manager_msgs::ControllerState_<std::allocator<void> >, controller_manager_msgs::msg::ControllerState_<std::allocator<void> > >::convert_1_to_2(controller_manager_msgs::ControllerState_<std::allocator<void> > const&, controller_manager_msgs::msg::ControllerState_<std::allocator<void> >&)'
+/usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::Factory<controller_manager_msgs::ControllerState_<std::allocator<void> >, controller_manager_msgs::msg::ControllerState_<std::allocator<void> > >::convert_2_to_1(controller_manager_msgs::msg::ControllerState_<std::allocator<void> > const&, controller_manager_msgs::ControllerState_<std::allocator<void> >&)'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/static_bridge.dir/build.make:348: static_bridge] Error 1
+make[1]: *** [CMakeFiles/Makefile2:233: CMakeFiles/static_bridge.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+/usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::Factory<controller_manager_msgs::ControllerState_<std::allocator<void> >, controller_manager_msgs::msg::ControllerState_<std::allocator<void> > >::convert_1_to_2(controller_manager_msgs::ControllerState_<std::allocator<void> > const&, controller_manager_msgs::msg::ControllerState_<std::allocator<void> >&)'
+/usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::Factory<controller_manager_msgs::ControllerState_<std::allocator<void> >, controller_manager_msgs::msg::ControllerState_<std::allocator<void> > >::convert_2_to_1(controller_manager_msgs::msg::ControllerState_<std::allocator<void> > const&, controller_manager_msgs::ControllerState_<std::allocator<void> >&)'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/parameter_bridge.dir/build.make:348: parameter_bridge] Error 1
+make[1]: *** [CMakeFiles/Makefile2:314: CMakeFiles/parameter_bridge.dir/all] Error 2
+/usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::Factory<controller_manager_msgs::ControllerState_<std::allocator<void> >, controller_manager_msgs::msg::ControllerState_<std::allocator<void> > >::convert_1_to_2(controller_manager_msgs::ControllerState_<std::allocator<void> > const&, controller_manager_msgs::msg::ControllerState_<std::allocator<void> >&)'
+/usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::Factory<controller_manager_msgs::ControllerState_<std::allocator<void> >, controller_manager_msgs::msg::ControllerState_<std::allocator<void> > >::convert_2_to_1(controller_manager_msgs::msg::ControllerState_<std::allocator<void> > const&, controller_manager_msgs::ControllerState_<std::allocator<void> >&)'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/dynamic_bridge.dir/build.make:348: dynamic_bridge] Error 1
+make[1]: *** [CMakeFiles/Makefile2:341: CMakeFiles/dynamic_bridge.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2
