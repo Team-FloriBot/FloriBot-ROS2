@@ -12,4 +12,3 @@
 	path = ros2_ws/src/scan_tools/resource/laser_geometry
 	url = https://github.com/ros-perception/laser_geometry.git
 	branch = ros2
-
