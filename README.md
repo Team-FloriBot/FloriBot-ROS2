@@ -6,9 +6,10 @@ Die folgende Tabelle gibt einen Überblick über den aktuellen Stand der Migrati
 |-----------------------|--------------------|-----------------------------------------------|------------------|-----------|
 | base                  | ✅Fertig           | vollständig migriert                          | base_ros2        | Aaron    |
 | base2gazebo           | ✅Fertig           | vollständig migriert                          | base2gazebo_ros2 | Jannis   |
-| PointCloudTransformer | ⏳ In Arbeit       |                                               | base_ros2        | Aaron    |
-| FieldRobotNavigator   | ❌ Nicht gestartet |                                               |                  | Aaron    |
-| LaserScan2PointCloud  | ❌ Nicht gestartet |                                               | base2gazebo_ros2 |          |
+| cart_merger           | ✅Fertig           | vollständig migriert                          | base2gazebo_ros2 | Jannis   |
+| scan2cart             | ⏳ In Arbeit       |                                               | base_ros2        | Jannis    |
+| maize_navigation      | ⏳ In Arbeit       |                                               |                  | Aaron    |
+| Floribot_simulation   | ⏳ In Arbeit        |                                               | base2gazebo_ros2 |          |
 
 # Klonen des Repository
 ```bash
