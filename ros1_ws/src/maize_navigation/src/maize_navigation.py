@@ -80,7 +80,7 @@ class FieldRobotNavigator:
 
     def navigate(self):
         rate = rospy.Rate(10)
-
+        
         while not rospy.is_shutdown():
             if self.points is None:
                 rate.sleep()
@@ -257,9 +257,6 @@ class FieldRobotNavigator:
             self.previous_row=self.actual_row     
             rospy.loginfo("Publishing to cmd_vel: %s", cmd_vel)
             self.cmd_vel_pub.publish(cmd_vel)
-
-                
-
 
     def turn_to_row(self):
         rospy.loginfo("Turn to row...")
