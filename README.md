@@ -1,3 +1,4 @@
+
 ## Aktueller Migrationsstand
 
 Die folgende Tabelle gibt einen Überblick über den aktuellen Stand der Migration einzelner Pakete von ROS 1 zu ROS 2. Jedes Paket durchläuft mehrere Phasen, beginnend mit der Analyse der Abhängigkeiten und Schnittstellen, über die schrittweise Portierung der Codebasis bis hin zur vollständigen Integration in die ROS 2 Umgebung. Während einige Pakete bereits erfolgreich migriert wurden, befinden sich andere noch in der Bearbeitung oder sind aufgrund bestehender Abhängigkeiten noch nicht gestartet.
@@ -24,6 +25,7 @@ line 119-126 ersetzen mit:
           pitch=0,
           yaw=1.5707963267948966 + self.wd.rng.random() * 0.1 - 0.05,
       )
+      
 # Klonen des Repository
 ```bash
 git clone https://github.com/Team-FloriBot/FloriBot-ROS2.git ~/floribot
@@ -95,6 +97,9 @@ Terminal 1:
 ```
 rosrun virtual_maize_field generate_world.py fre22_task_navigation_mini
 ```
+
+rosrun virtual_maize_field generate_world.py fre22_task_navigation_mini
+```
 ```
 roslaunch floribot_simulation FloriBot.launch
 ```
@@ -103,6 +108,12 @@ Terminal 2:
 . install/setup.bash
 ```
 ```
+
+ros2 launch base base_node.launch.py
+```
+Terminal 3:
+```
+. <workspace-parent-path>/bridge_ws/install/local_setup.bash
 ros2 launch floribot_simulation FloriBot.launch.py
 ```
 Terminal 3:
