@@ -10,5 +10,9 @@ bridge_ws/build/
 bridge_ws/devel/
 bridge_ws/install/
 bridge_wss/log/
-
+build/
+devel/
+install/
+log/
+.vscode
 
