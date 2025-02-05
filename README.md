@@ -4,13 +4,14 @@
 Die folgende Tabelle gibt einen Überblick über den aktuellen Stand der Migration einzelner Pakete von ROS 1 zu ROS 2. Jedes Paket durchläuft mehrere Phasen, beginnend mit der Analyse der Abhängigkeiten und Schnittstellen, über die schrittweise Portierung der Codebasis bis hin zur vollständigen Integration in die ROS 2 Umgebung. Während einige Pakete bereits erfolgreich migriert wurden, befinden sich andere noch in der Bearbeitung oder sind aufgrund bestehender Abhängigkeiten noch nicht gestartet.
 
 =======
-| Paket                 | Status             | Bemerkungen                                   | Branch           |Wer        |
-|-----------------------|--------------------|-----------------------------------------------|------------------|-----------|
-| base                  | ✅Fertig           | vollständig migriert                          | base_ros2        | Aaron    |
+| Paket                 | Status             | Bemerkungen                                   | Branch           |Wer      |
+|-----------------------|--------------------|-----------------------------------------------|------------------|---------|
+| base                  | ✅Fertig           | vollständig migriert                          | base_ros2        | Aaron   |
 | base2gazebo           | ✅Fertig           | vollständig migriert                          | base2gazebo_ros2 | Jannis  |
-| scan2cart             | ✅Fertig      | vollständig migriert                                      | base_ros2        | Jannis & Aaron   |
-| maize_navigation      | ✅Fertig        | vollständig migriert                    |                  | Aaron    |
-| Floribot_simulation   | noch nicht gestartet       |                                               | base2gazebo_ros2 |          |
+| scan2cart             | ✅Fertig           | vollständig migriert                          | scan_tool        | Jannis & Aaron   |
+| maize_navigation      | ✅Fertig           | vollständig migriert                          | maize_navigation_ros2| Aaron   |
+| Floribot_simulation   | ⌛in Arbeit        |                                               | Floribot_simulation_ros2 | Aaron   |
+| plc_communication     | ⌛in Arbeit        |                                               | plc_communication_ros2 | Jannis  |
 
 # Individuelle Änderungen
 sick_scan_xd in CMakeLists.txt urdf in share file installieren
