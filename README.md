@@ -3,13 +3,6 @@
 
 Die folgende Tabelle gibt einen Überblick über den aktuellen Stand der Migration einzelner Pakete von ROS 1 zu ROS 2. Jedes Paket durchläuft mehrere Phasen, beginnend mit der Analyse der Abhängigkeiten und Schnittstellen, über die schrittweise Portierung der Codebasis bis hin zur vollständigen Integration in die ROS 2 Umgebung. Während einige Pakete bereits erfolgreich migriert wurden, befinden sich andere noch in der Bearbeitung oder sind aufgrund bestehender Abhängigkeiten noch nicht gestartet.
 
-| Paket                 | Status         | Bemerkungen                                    |
-|-----------------------|--------------------|--------------------------------------------|
-| base                  | ⏳ In Arbeit       | Teilweise migriert, Tests laufen           |
-| base2gazebo           | ⏳ In Arbeit |                                            |
-| maize_navigation      | ❌ Nicht gestartet |                                            |
-| PointCloudTransformer | ❌ Nicht gestartet |                                            |
-| FieldRobotNavigator   | ❌ Nicht gestartet |                                            |
 =======
 | Paket                 | Status             | Bemerkungen                                   | Branch           |Wer        |
 |-----------------------|--------------------|-----------------------------------------------|------------------|-----------|
