@@ -9,6 +9,9 @@ ros2_ws/log/
 bridge_ws/build/
 bridge_ws/devel/
 bridge_ws/install/
-bridge_wss/log/
-.vscode/
+bridge_ws/log/
+build/
+devel/
+install/
+log/
 
