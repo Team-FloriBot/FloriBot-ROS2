@@ -43,7 +43,7 @@
   <include file="$(find visu)/launch/rviz_visu.launch"></include>
   
   <!-- Include navigation -->
-  <include file="$(find maize_navigation)/launch/maize_navigation.launch"></include>
+  <!--include file="$(find maize_navigation)/launch/maize_navigation.launch"></include-->
 
   
   <!--load FLORIBOT_PARAMETER-->
