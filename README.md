@@ -6,8 +6,8 @@ Die folgende Tabelle gibt einen Überblick über den aktuellen Stand der Migrati
 |-----------------------|--------------------|-----------------------------------------------|------------------|-----------|
 | base                  | ✅Fertig           | vollständig migriert                          | base_ros2        | Aaron    |
 | base2gazebo           | ✅Fertig           | vollständig migriert                          | base2gazebo_ros2 | Jannis  |
-| scan2cart             | ⏳ In Arbeit       | tests                                             | base_ros2        | Jannis & Aaron   |
-| maize_navigation      | ✅Fertig        |                                            |                  | Aaron    |
+| scan2cart             | ✅Fertig      | vollständig migriert                                      | base_ros2        | Jannis & Aaron   |
+| maize_navigation      | ✅Fertig        | vollständig migriert                    |                  | Aaron    |
 | Floribot_simulation   | noch nicht gestartet       |                                               | base2gazebo_ros2 |          |
 
 # Individuelle Änderungen
