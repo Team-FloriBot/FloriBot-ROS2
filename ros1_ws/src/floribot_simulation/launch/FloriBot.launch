@@ -33,7 +33,7 @@
   <!--include file="$(find base)/launch/base_node.launch"></include-->
 
   <!-- Include Wheel Speed Publisher from Ros to Gazebo -->
-  <include file="$(find base2gazebo)/launch/base2gazebo.launch"></include>
+  <!--include file="$(find base2gazebo)/launch/base2gazebo.launch"></include-->
   
   <!-- Include scan_tools -->
   <!--include file="$(find scan_tools)/launch/scan2cart.launch"></include-->
