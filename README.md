@@ -5,10 +5,10 @@ Die folgende Tabelle gibt einen Überblick über den aktuellen Stand der Migrati
 | Paket                 | Status             | Bemerkungen                                   | Branch           |Wer        |
 |-----------------------|--------------------|-----------------------------------------------|------------------|-----------|
 | base                  | ✅Fertig           | vollständig migriert                          | base_ros2        | Aaron    |
-| base2gazebo           | ✅Fertig           | vollständig migriert                          | base2gazebo_ros2 | Jannis & Aaron  |
-| scan2cart             | ⏳ In Arbeit       |                                               | base_ros2        | Jannis    |
-| maize_navigation      | ⏳ In Arbeit       |                                               |                  | Aaron    |
-| Floribot_simulation   | ⏳ In Arbeit        |                                               | base2gazebo_ros2 |          |
+| base2gazebo           | ✅Fertig           | vollständig migriert                          | base2gazebo_ros2 | Jannis  |
+| scan2cart             | ⏳ In Arbeit       | tests                                             | base_ros2        | Jannis & Aaron   |
+| maize_navigation      | ✅Fertig        |                                            |                  | Aaron    |
+| Floribot_simulation   | noch nicht gestartet       |                                               | base2gazebo_ros2 |          |
 
 # Klonen des Repository
 ```bash
