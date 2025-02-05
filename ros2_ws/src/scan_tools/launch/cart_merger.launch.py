@@ -11,11 +11,20 @@ def generate_launch_description():
             # Optional: Falls du den Parameter für den tf frame hinzufügen möchtest
             # parameters=[{'merge_frame': 'base_link'}]
         ),
-         Node(
+        Node(
             package='scan_tools',
             executable='scan2cart',
-            name='scan2cart',
+            name='scan2cart_front',
             # Optional: Falls du den Parameter für den tf frame hinzufügen möchtest
-            # parameters=[{'merge_frame': 'base_link'}]
+            parameters=[{'scan_topic': '/laser_scanner_front'},
+                        {'pointcloud_topic': '/laser_scanner_front_cart'}]
+        ),
+        Node(
+            package='scan_tools',
+            executable='scan2cart',
+            name='scan2cart_rear',
+            # Optional: Falls du den Parameter für den tf frame hinzufügen möchtest
+            parameters=[{'scan_topic': '/laser_scanner_rear'},
+                        {'pointcloud_topic': '/laser_scanner_rear_cart'}]
         ),
     ])

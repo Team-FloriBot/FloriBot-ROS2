@@ -36,7 +36,7 @@
   <include file="$(find base2gazebo)/launch/base2gazebo.launch"></include>
   
   <!-- Include scan_tools -->
-  <include file="$(find scan_tools)/launch/scan2cart.launch"></include>
+  <!--include file="$(find scan_tools)/launch/scan2cart.launch"></include-->
   <!--include file="$(find scan_tools)/launch/cart_merger.launch"></include-->
   
   <!-- Include visu -->
