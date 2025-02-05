@@ -99,7 +99,7 @@ Terminal 1:
 ```
 rosrun virtual_maize_field generate_world.py fre22_task_navigation_mini
 ```
-
+```
 rosrun virtual_maize_field generate_world.py fre22_task_navigation_mini
 ```
 ```
