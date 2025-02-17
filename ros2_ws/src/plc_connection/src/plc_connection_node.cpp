@@ -1,31 +1,30 @@
-#include "plc_connection/plc_connection.h"
-#include"network/udp/udp_socket.h"
+#include "plc_connection/plc_connection.hpp"
 
 void ExitFcn();
 
 int main(int argc, char** argv)
 {
-
-    ros::init(argc, argv, "PLC_Connection");
+    rclcpp::init(argc, argv); 
+    auto  node = std::make_shared<PlcConnectionNode>();
     std::atexit(ExitFcn);
-    ros::NodeHandle nh;
+
     try
     {
-        plcConnectionNode PlcConnection;
-        ros::spin();
+        // ROS2 spinnt den Knoten
+        rclcpp::spin(node);
     }
-    //Log Error before exiting node with error
-    catch(const std::exception* e)
+    catch(const std::runtime_error& e)
     {
-        ROS_ERROR("Exiting with error:\n%s\n", e->what());
-        delete e;
-        exit(-1);
+        // Fehlerbehandlung in ROS2
+        RCLCPP_ERROR(rclcpp::get_logger( node->get_name()), "Exiting with error:\n%s\n", e.what());
+        return 1; // Exit mit Fehlercode
     }
-    
-    return 0;
-}
 
+    // Aufräumarbeiten bei normalem Abschluss
+    rclcpp::shutdown();
+}
+// ExitFcn gibt den Knotennamen aus, wenn das Programm beendet wird
 void ExitFcn()
 {
-    ROS_ERROR("Exiting Node: %s \n", ros::this_node::getName().c_str());
+    RCLCPP_ERROR(rclcpp::get_logger("PlcConnectionNode"), "Exiting Node: PLC_Connection");
 }
