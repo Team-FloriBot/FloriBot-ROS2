@@ -10,9 +10,8 @@ Die folgende Tabelle gibt einen Überblick über den aktuellen Stand der Migrati
 | base2gazebo           | ✅Fertig           | vollständig migriert                          | base2gazebo_ros2 | Jannis  |
 | scan2cart             | ✅Fertig           | vollständig migriert                          | scan_tool        | Jannis & Aaron   |
 | maize_navigation      | ✅Fertig           | vollständig migriert                          | maize_navigation_ros2| Aaron   |
+| plc_communication     | ✅Fertig           | vollständig migriert                          | plc_communication_ros2 | Jannis  |
 | Floribot_simulation   | ⌛in Arbeit        |                                               | Floribot_simulation_ros2 | Aaron   |
-| plc_communication     | ⌛in Arbeit        |                                               | plc_communication_ros2 | Jannis  |
-
 # Individuelle Änderungen
 sick_scan_xd in CMakeLists.txt urdf in share file installieren
 line 915: install(DIRECTORY urdf DESTINATION share/${PROJECT_NAME})
