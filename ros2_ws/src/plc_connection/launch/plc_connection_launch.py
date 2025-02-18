@@ -1,45 +1,56 @@
-import launch
+import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, LogInfo
+from launch.actions import DeclareLaunchArgument
 from launch_ros.actions import Node
+from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
+    # Declare the launch arguments
     return LaunchDescription([
-        DeclareLaunchArgument('plc_ip', default_value='192.168.0.43', description='PLC IP address'),
-        DeclareLaunchArgument('plc_port', default_value='50000', description='PLC Port'),
-        DeclareLaunchArgument('xavier_ip', default_value='192.168.0.42', description='Xavier IP address'),
-        DeclareLaunchArgument('xavier_port', default_value='50000', description='Xavier Port'),
-        DeclareLaunchArgument('plc_timeout', default_value='1.5', description='PLC Timeout'),
-        DeclareLaunchArgument('zero_count_encoder', default_value='41229', description='Zero count encoder'),
-        DeclareLaunchArgument('count_per_rotation_encoder', default_value='4096', description='Count per rotation encoder'),
-        DeclareLaunchArgument('engine_acceleration', default_value='1000', description='Engine acceleration'),
-        DeclareLaunchArgument('engine_jerk', default_value='10000', description='Engine jerk'),
-        DeclareLaunchArgument('period_send_read', default_value='0.05', description='Period for sending and reading data'),
 
+        #DeclareLaunchArgument('plc_ip', default_value='192.168.0.43'),
+        #DeclareLaunchArgument('plc_port', default_value='50000'),
+        #DeclareLaunchArgument('xavier_ip', default_value='192.168.0.42'),
+        #DeclareLaunchArgument('xavier_port', default_value='50000'),
+
+        #Die folgenden Communications Parameter sind nur für den im test ordner verfügbaren testserver
+        DeclareLaunchArgument('plc_ip', default_value='127.0.0.1'),
+        DeclareLaunchArgument('plc_port', default_value='50001'),  # Change to an available port
+        DeclareLaunchArgument('xavier_ip', default_value='127.0.0.1'),
+        DeclareLaunchArgument('xavier_port', default_value='50002'),  # Change to an available port
+
+        DeclareLaunchArgument('plc_timeout', default_value='1.5'),
+        DeclareLaunchArgument('zero_count_encoder', default_value='41229'),
+        DeclareLaunchArgument('count_per_rotation_encoder', default_value='4096.0'),
+        DeclareLaunchArgument('engine_acceleration', default_value='1000.0'),
+        DeclareLaunchArgument('engine_jerk', default_value='10000.0'),
+        DeclareLaunchArgument('period_Send_Read', default_value='0.05'),
+
+        # Define the node
         Node(
             package='plc_connection',
             executable='plc_connection_node',
             name='PLC_Connection',
             output='screen',
-            parameters=[
-                {'PLC_IP': launch.substitutions.LaunchConfiguration('plc_ip')},
-                {'PLC_Port': launch.substitutions.LaunchConfiguration('plc_port')},
-                {'PLC_Timeout': launch.substitutions.LaunchConfiguration('plc_timeout')},
-                {'Xavier_Port': launch.substitutions.LaunchConfiguration('xavier_port')},
-                {'Xavier_IP': launch.substitutions.LaunchConfiguration('xavier_ip')},
-                {'ZeroCount_Encoder': launch.substitutions.LaunchConfiguration('zero_count_encoder')},
-                {'CountPerRotation_Encoder': launch.substitutions.LaunchConfiguration('count_per_rotation_encoder')},
-                {'Engine_Acceleration': launch.substitutions.LaunchConfiguration('engine_acceleration')},
-                {'Engine_Jerk': launch.substitutions.LaunchConfiguration('engine_jerk')},
-                {'Period_Send_Read': launch.substitutions.LaunchConfiguration('period_send_read')}
-            ],
+            parameters=[{
+                'PLC_IP': LaunchConfiguration('plc_ip'),
+                'PLC_Port': LaunchConfiguration('plc_port'),
+                'PLC_Timeout': LaunchConfiguration('plc_timeout'),
+                'Xavier_Port': LaunchConfiguration('xavier_port'),
+                'Xavier_IP': LaunchConfiguration('xavier_ip'),
+                'ZeroCount_Encoder': LaunchConfiguration('zero_count_encoder'),
+                'CountPerRotation_Encoder': LaunchConfiguration('count_per_rotation_encoder'),
+                'Engine_Acceleration': LaunchConfiguration('engine_acceleration'),
+                'Engine_Jerk': LaunchConfiguration('engine_jerk'),
+                'Period_Send_Read': LaunchConfiguration('period_Send_Read'),
+            }],
             remappings=[
-                # Add remaps if needed, for example:
-                # ('/engine/actualSpeed', '/engine/actualSpeed')
+                # Uncomment and modify these lines if you need to remap topics
+                # ('/engine/actualSpeed', '/engine/actualSpeed'),
+                # ('/engine/targetSpeed', '/engine/targetSpeed'),
+                # ('/engine/targetAcceleration', '/engine/targetAcceleration'),
+                # ('/engine/targetTorque', '/engine/targetTorque'),
+                # ('/sensors/bodyAngle', '/sensors/bodyAngle'),
             ]
         ),
-        LogInfo(
-            condition=launch.conditions.LaunchConfigurationEquals('plc_ip', '192.168.0.43'),
-            msg="PLC IP is set to default value of 192.168.0.43"
-        )
     ])
