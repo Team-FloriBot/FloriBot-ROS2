@@ -1,6 +1,10 @@
 [submodule "ros1_ws/src/virtual_maize_field"]
 	path = ros1_ws/src/virtual_maize_field
 	url = https://github.com/FieldRobotEvent/virtual_maize_field
+[submodule "ros2_ws/src/virtual_maize_field"]
+	path = ros2_ws/src/virtual_maize_field
+	url = https://github.com/FieldRobotEvent/virtual_maize_field
+	branch = ros2-ign
 [submodule "bridge_ws/src/ros1_bridge"]
 	path = bridge_ws/src/ros1_bridge
 	url = https://github.com/ros2/ros1_bridge.git
