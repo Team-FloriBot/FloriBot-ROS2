@@ -1,20 +1,24 @@
 
-## Aktueller Migrationsstand
+## Floribot Simulation
 
-Die folgende Tabelle gibt einen Überblick über den aktuellen Stand der Migration einzelner Pakete von ROS 1 zu ROS 2. Jedes Paket durchläuft mehrere Phasen, beginnend mit der Analyse der Abhängigkeiten und Schnittstellen, über die schrittweise Portierung der Codebasis bis hin zur vollständigen Integration in die ROS 2 Umgebung. Während einige Pakete bereits erfolgreich migriert wurden, befinden sich andere noch in der Bearbeitung oder sind aufgrund bestehender Abhängigkeiten noch nicht gestartet.
+Dieser Branch stellt den Versuch dar, die komplette Simulation in ROS2 zu migrieren. Dazu wurde in ROS 2 Humble gearbeitet.
+Jedoch treten zurzeit noch einige Fehler auf die noch behebt werden müssen.
 
-=======
-| Paket                 | Status             | Bemerkungen                                   | Branch           |Wer      |
-|-----------------------|--------------------|-----------------------------------------------|------------------|---------|
-| base                  | ✅Fertig           | vollständig migriert                          | base_ros2        | Aaron   |
-| base2gazebo           | ✅Fertig           | vollständig migriert                          | base2gazebo_ros2 | Jannis  |
-| scan2cart             | ✅Fertig           | vollständig migriert                          | scan_tool        | Jannis & Aaron   |
-| maize_navigation      | ✅Fertig           | vollständig migriert                          | maize_navigation_ros2| Aaron   |
-| Floribot_simulation   | ⌛in Arbeit        |                                               | Floribot_simulation_ros2 | Aaron   |
-| plc_communication     | ⌛in Arbeit        |                                               | plc_communication_ros2 | Jannis  |
+# Requirements
+``
+sudo apt install ros-humble-gazebo-ros-pkgs
+sudo apt install ros-humble-velocity-controllers
+sudo apt install ros-humble-xacro
 
+sudo apt install ros-humble-ros-gz-sim
+sudo apt install ros-humble-ros-gz-bridge
+sudo apt install ros-humble-joint-state-publisher
+sudo apt install ros-humble-controller-manager
+sudo apt install ros-humble-ros2-control
+sudo apt install ros-humble-ros2-controllers
+``
 # Individuelle Änderungen
-sick_scan_xd in CMakeLists.txt urdf in share file installieren
+in sick_scan_xd in CMakeLists.txt urdf in share file installieren
 line 915: install(DIRECTORY urdf DESTINATION share/${PROJECT_NAME})
 
 
@@ -31,7 +35,7 @@ line 119-126 ersetzen mit:
       
 # Klonen des Repository
 ```bash
-git clone https://github.com/Team-FloriBot/FloriBot-ROS2.git ~/floribot
+git clone -b floribot_simulation_ros2 https://github.com/Team-FloriBot/FloriBot-ROS2.git ~/floribot
 ```
 ```
 cd ~/floribot
@@ -43,90 +47,27 @@ git submodule init
 git submodule update
 ```
 
-# Bauen der Bridge und Packages
-Terminal 1:
+# Bauen der Packages
 ```
-cd ~
+cd ~/floribot/ros2_ws
 ```
-```
-source /opt/ros/noetic/setup.bash
-```
-```
-cd ~/floribot/ros1_ws
+``
+colcon build --packages-select sick_scan_xd --cmake-args " -DROS_VERSION=2" " -DLDMRS=0" " -DSCANSEGMENT_XD=0" --event-handlers console_direct+
 ```
 ```
-catkin_make
+colcon build --symlink-install --packages-ignore sick_scan_xd
 ```
-Terminal 2:
-```
-cd ~
-```
-```
-source /opt/ros/foxy/setup.bash
-```
+
+# Starten der Simulation
 ```
 cd ~/floribot/ros2_ws
 ```
 ```
-colcon build --symlink-install
-```
-Terminal 3:
-```
-cd ~
-```
-```
-source /opt/ros/noetic/setup.bash
-```
-```
-source /opt/ros/foxy/setup.bash
-```
-```
-source ~/floribot/ros1_ws/devel/setup.bash
-```
-```
-source ~/floribot/ros2_ws/install/setup.bash
-```
-```
-cd ~/floribot/bridge_ws
-```
-```
-colcon build --packages-select ros1_bridge --cmake-force-configure
-```
-# Starten der Simulation
-Terminal 1:
-```
-. devel/setup.bash
-```
-```
-rosrun virtual_maize_field generate_world.py fre22_task_navigation_mini
-```
-```
-rosrun virtual_maize_field generate_world.py fre22_task_navigation_mini
-```
-```
-roslaunch floribot_simulation FloriBot.launch
-```
-Terminal 2:
-```
 . install/setup.bash
 ```
 ```
-
-ros2 launch base base_node.launch.py
+ros2 launch floribot_simulation floribot_simulation.launch.py
 ```
-Terminal 3:
-```
-. <workspace-parent-path>/bridge_ws/install/local_setup.bash
-ros2 launch floribot_simulation FloriBot.launch.py
-```
-Terminal 3:
-```
-. install/local_setup.bash
-```
-```
-ros2 run ros1_bridge dynamic_bridge --bridge-all-topics
-```
-
 
 
 
