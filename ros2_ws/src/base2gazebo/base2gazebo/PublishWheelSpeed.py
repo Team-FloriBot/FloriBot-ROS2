@@ -3,6 +3,7 @@ import rclpy
 from rclpy.node import Node
 from base.msg import Wheels
 from std_msgs.msg import Float64
+from trajectory_msgs.msg import JointTrajectory
 
 class WheelSpeedPublisher(Node):
 
@@ -10,10 +11,10 @@ class WheelSpeedPublisher(Node):
         super().__init__('wheel_speed_publisher')
         
         # Erstelle Publisher für jede Achse
-        self.pub_fl = self.create_publisher(Float64, '/gazebo/joint_fl_controller/command', 10)
-        self.pub_fr = self.create_publisher(Float64, '/gazebo/joint_fr_controller/command', 10)
-        self.pub_rl = self.create_publisher(Float64, '/gazebo/joint_rl_controller/command', 10)
-        self.pub_rr = self.create_publisher(Float64, '/gazebo/joint_rr_controller/command', 10)
+        self.pub_fl = self.create_publisher(Float64, '/joint_fl_controller/command', 10)
+        self.pub_fr = self.create_publisher(Float64, '/joint_fr_controller/command', 10)
+        self.pub_rl = self.create_publisher(Float64, '/joint_rl_controller/command', 10)
+        self.pub_rr = self.create_publisher(Float64, '/joint_rr_controller/command', 10)
         
         # Erstelle Subscriber, um die Geschwindigkeiten zu empfangen
         self.create_subscription(Wheels, '/engine/targetSpeed', self.callback, 10)

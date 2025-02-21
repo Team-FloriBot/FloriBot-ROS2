@@ -1,8 +1,7 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, LogInfo
-from launch.substitutions import LaunchConfiguration, TextSubstitution
+from launch.actions import DeclareLaunchArgument
 from launch_ros.actions import Node
-from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
     # Argumente definieren
@@ -19,32 +18,37 @@ def generate_launch_description():
             name='base',
             output='screen',
             parameters=[
-                {'wheelDiameter': -0.38},
-                {'axesLength': -0.38}
+                {'wheelDiameter': LaunchConfiguration('wheelDiameter')},
+                {'axesLength': LaunchConfiguration('axesLength')}
             ]
         ),
+        
         # tf2 static_transform_publisher Knoten
         Node(
             package='tf2_ros',
             executable='static_transform_publisher',
             name='AxesFront2JointFront',
             output='screen',
-            arguments=[LaunchConfiguration('frontLength'), '0', '0', '0', '0', '0', '1', 'axesFront', 'jointFront']
+            arguments=[
+                LaunchConfiguration('frontLength'), '0', '0', '0', '0', '0', 'axesFront', 'jointFront'
+            ]
         ),
         Node(
             package='tf2_ros',
             executable='static_transform_publisher',
             name='AxesRear2JointRear',
             output='screen',
-            arguments=[LaunchConfiguration('rearLength'), '0', '0', '0', '0', '0', '1', 'jointRear', 'axesRear']
+            arguments=[
+                LaunchConfiguration('rearLength'), '0', '0', '0', '0', '0', 'axesRear', 'jointRear'
+            ]
         ),
         Node(
             package='tf2_ros',
             executable='static_transform_publisher',
             name='Front',
             output='screen',
-            arguments=['0', '0', '0', '0', '0', '0', '1', 'base_link', 'axesFront']
+            arguments=[
+                '0', '0', '0', '0', '0', '0', 'base_link', 'axesFront'
+            ]
         ),
-
     ])
-

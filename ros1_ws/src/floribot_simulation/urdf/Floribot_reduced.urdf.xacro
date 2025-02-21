@@ -39,8 +39,7 @@
 <xacro:property name="wheel_joint_2_mid_joint" value="0.383" />
 <xacro:property name="joint_height" value="0.015" />
 
-<!-- add laserscanners -->
-<xacro:include filename="$(find sick_scan)/urdf/sick_scan.urdf.xacro" />
+
 
 <!-- macro wheel tranmission -->
 <xacro:macro name="wheel_transmission" params="position">
@@ -536,6 +535,8 @@
 <xacro:wheel_color linkName="frontRight" />
 <xacro:wheel_color linkName="rearLeft" />
 <xacro:wheel_color linkName="rearRight" />
+
+
 
 <!-- Gazebo plugin for ROS Control -->
 <gazebo>

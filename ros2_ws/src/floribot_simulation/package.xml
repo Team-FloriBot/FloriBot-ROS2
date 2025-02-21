@@ -8,24 +8,52 @@
   <maintainer email="davidvlu@gmail.com">David V. Lu!!</maintainer>
   <license>BSD</license>
 
+
+  <url type="website">https://github.com/ros-controls/gz_ros2_control/blob/master/README.md</url>
+  <url type="bugtracker">https://github.com/ros-controls/gz_ros2_control/issues</url>
+  <url type="repository">https://github.com/ros-controls/gz_ros2_control</url>
+
+
   <!-- Build dependencies -->
   <buildtool_depend>ament_cmake</buildtool_depend>
-  <depend>rclcpp</depend>
-  <depend>std_msgs</depend>
-  <depend>geometry_msgs</depend>
-  <depend>gazebo_ros</depend>
-  <depend>xacro</depend>
+  <build_depend>control_msgs</build_depend>
 
+  <depend>rclcpp</depend>
+  <depend>rclcpp_action</depend>
+  <depend>gazebo_ros</depend>
+  <depend>pluginlib</depend>
+  <depend>diff_controller_1</depend>
+  <depend>diff_controller_2</depend>
   <!-- Run dependencies -->
-  <exec_depend>gazebo_ros_control</exec_depend>
-  <exec_depend>controller_manager</exec_depend>
-  <exec_depend>diff_drive_controller</exec_depend>
-  <exec_depend>joint_state_controller</exec_depend>
-  <exec_depend>position_controllers</exec_depend>
-  <exec_depend>robot_state_publisher</exec_depend>
-  <exec_depend>rqt_robot_steering</exec_depend>
+
+  <exec_depend>ament_index_python</exec_depend>
   <exec_depend>rviz2</exec_depend>
+  <exec_depend>control_msgs</exec_depend>
+  <exec_depend>effort_controllers</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>hardware_interface</exec_depend>
+  <exec_depend>ign_ros2_control</exec_depend>
+  <exec_depend>imu_sensor_broadcaster</exec_depend>
+  <exec_depend>joint_state_broadcaster</exec_depend>
+  <exec_depend>joint_trajectory_controller</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
   <exec_depend>ros2launch</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>ros_ign_gazebo</exec_depend>
+  <exec_depend>ros_gz_bridge</exec_depend>
+  <exec_depend>ros2controlcli</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>velocity_controllers</exec_depend>
+  <exec_depend>diff_drive_controller</exec_depend>
+  <exec_depend>tricycle_controller</exec_depend>
+  <exec_depend>ackermann_steering_controller</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+  <test_depend>ament_cmake_gtest</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
 
   <!-- Test dependencies -->
   <test_depend>ament_lint_auto</test_depend>
@@ -33,6 +61,7 @@
 
   <export>                               
    <build_type>ament_cmake</build_type> 
+   <gazbeo_ros gazebo_model_path="${prefix}/share/${package_name}/meshes"/>
   </export> 
 </package>
 

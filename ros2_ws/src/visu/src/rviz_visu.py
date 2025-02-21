@@ -3,6 +3,7 @@ import rclpy
 from rclpy.node import Node
 from visualization_msgs.msg import Marker
 from geometry_msgs.msg import Point
+from builtin_interfaces.msg import Duration  # Import Duration message type
 
 class BoundingBoxPublisher(Node):
     def __init__(self):
@@ -15,6 +16,37 @@ class BoundingBoxPublisher(Node):
         self.declare_parameter('both_sides', 'both')
         self.get_logger().info("Start with default Drive BOX")
         self.idx = 0
+        
+          # Parameter deklarieren
+        self.declare_parameter('x_min_drive_in_row', -0.2)
+        self.declare_parameter('x_max_drive_in_row', 1.15)
+        self.declare_parameter('y_min_drive_in_row', 0.1)
+        self.declare_parameter('y_max_drive_in_row', 0.75)
+        self.declare_parameter('row_width', 0.6)
+        self.declare_parameter('drive_out_dist', 0.5)
+        self.declare_parameter('max_dist_in_row', 0.5)
+        self.declare_parameter('critic_row', [0, 1])
+        self.declare_parameter('vel_linear_drive', 0.2)
+        self.declare_parameter('vel_linear_count', 0.1)
+        self.declare_parameter('vel_linear_turn', 0.1)
+        self.declare_parameter('x_min_turn_and_exit', -0.2)
+        self.declare_parameter('x_max_turn_and_exit', 1.15)
+        self.declare_parameter('y_min_turn_and_exit', 0.1)
+        self.declare_parameter('y_max_turn_and_exit', 0.75)
+        self.declare_parameter('x_min_counting_rows', -0.2)
+        self.declare_parameter('x_max_counting_rows', 1.15)
+        self.declare_parameter('y_min_counting_rows', 0.1)
+        self.declare_parameter('y_max_counting_rows', 0.75)
+        self.declare_parameter('x_min_turn_to_row', -0.2)
+        self.declare_parameter('x_max_turn_to_row', 1.15)
+        self.declare_parameter('y_min_turn_to_row', 0.1)
+        self.declare_parameter('y_max_turn_to_row', 0.75)
+        self.declare_parameter('x_min_turn_to_row_critic', -0.2)
+        self.declare_parameter('x_max_turn_to_row_critic', 1.15)
+        self.declare_parameter('y_min_turn_to_row_critic', 0.1)
+        self.declare_parameter('y_max_turn_to_row_critic', 0.75)
+
+
 
     def publish_bounding_boxes(self):
         # Deleting old markers
@@ -24,14 +56,14 @@ class BoundingBoxPublisher(Node):
             marker_left_msg.ns = "bounding_boxes"
             marker_left_msg.id = 0  # ID of the left marker
             marker_left_msg.action = Marker.DELETE  # Set the action to DELETE
-            marker_left_msg.lifetime = rclpy.duration.Duration(seconds=0)  # Set a short lifetime (0 seconds)
+            marker_left_msg.lifetime = Duration(sec=0)  # Set a short lifetime (0 seconds)
 
             marker_right_msg = Marker()
             marker_right_msg.header.frame_id = "front_laser"
             marker_right_msg.ns = "bounding_boxes"
             marker_right_msg.id = 1  # ID of the right marker
             marker_right_msg.action = Marker.DELETE  # Set the action to DELETE
-            marker_right_msg.lifetime = rclpy.duration.Duration(seconds=0)  # Set a short lifetime (0 seconds)
+            marker_right_msg.lifetime = Duration(sec=0)  # Set a short lifetime (0 seconds)
 
             # Publish deletion messages for both markers
             self.publisher_.publish(marker_left_msg)
