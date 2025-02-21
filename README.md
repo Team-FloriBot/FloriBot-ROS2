@@ -5,7 +5,7 @@ Dieser Branch stellt den Versuch dar, die komplette Simulation in ROS2 zu migrie
 Jedoch treten zurzeit noch einige Fehler auf die noch behebt werden müssen.
 
 # Requirements
-``
+```
 sudo apt install ros-humble-gazebo-ros-pkgs
 sudo apt install ros-humble-velocity-controllers
 sudo apt install ros-humble-xacro
@@ -16,7 +16,7 @@ sudo apt install ros-humble-joint-state-publisher
 sudo apt install ros-humble-controller-manager
 sudo apt install ros-humble-ros2-control
 sudo apt install ros-humble-ros2-controllers
-``
+```
 # Individuelle Änderungen
 in sick_scan_xd in CMakeLists.txt urdf in share file installieren
 line 915: install(DIRECTORY urdf DESTINATION share/${PROJECT_NAME})
@@ -34,7 +34,7 @@ line 119-126 ersetzen mit:
       )
       
 # Klonen des Repository
-```bash
+```
 git clone -b floribot_simulation_ros2 https://github.com/Team-FloriBot/FloriBot-ROS2.git ~/floribot
 ```
 ```
@@ -51,7 +51,7 @@ git submodule update
 ```
 cd ~/floribot/ros2_ws
 ```
-``
+```
 colcon build --packages-select sick_scan_xd --cmake-args " -DROS_VERSION=2" " -DLDMRS=0" " -DSCANSEGMENT_XD=0" --event-handlers console_direct+
 ```
 ```
