@@ -7,6 +7,8 @@ from sensor_msgs_py import point_cloud2
 import time as t
 
 class FieldRobotNavigator(Node):
+    # Initialisierung
+    # ---------------------
     def __init__(self):
         super().__init__('field_robot_navigator')
 
@@ -18,44 +20,45 @@ class FieldRobotNavigator(Node):
         # Initialize member variables
         self.robot_pose = None
         self.points = None
+        # Parameter deklarieren
+        self.declare_parameters(
+        	namespace='',
+        	parameters=[
+        		('box', None),
+        		('both_sides', None),
+        		('x_min_drive_in_row', None),
+        		('x_max_drive_in_row', None),
+        		('y_min_drive_in_row', None),
+        		('y_max_drive_in_row', None),
+        		('row_width', None),
+        		('drive_out_dist', None),
+        		('max_dist_in_row', None),
+        		('critic_row', None),
+        		('vel_linear_drive', None),
+        		('vel_linear_count', None),
+        		('vel_linear_turn', None),
+        		('x_min_turn_and_exit', None),
+        		('x_max_turn_and_exit', None),
+        		('y_min_turn_and_exit', None),
+        		('y_max_turn_and_exit', None),
+        		('x_min_counting_rows', None),
+        		('x_max_counting_rows', None),     
+        		('y_min_counting_rows', None),
+        		('y_max_counting_rows', None),
+        		('x_min_turn_to_row', None),
+        		('x_max_turn_to_row', None),
+        		('y_min_turn_to_row', None),
+        		('y_max_turn_to_row', None),    		
+        		('x_min_turn_to_row_critic', None),
+        		('x_max_turn_to_row_critic', None),
+        		('y_min_turn_to_row_critic', None),
+        		('y_max_turn_to_row_critic', None), 
+        		('pattern_steps', None),
+        		('pattern_direction', None), 
+              	]
+        )
 
-        self.declare_parameter('box', 'drive')
-        self.declare_parameter('both_sides', 'both')
-          # Parameter deklarieren
-        self.declare_parameter('x_min_drive_in_row', -0.2)
-        self.declare_parameter('x_max_drive_in_row', 1.15)
-        self.declare_parameter('y_min_drive_in_row', 0.1)
-        self.declare_parameter('y_max_drive_in_row', 0.75)
-        self.declare_parameter('row_width', 0.6)
-        self.declare_parameter('drive_out_dist', 0.5)
-        self.declare_parameter('max_dist_in_row', 0.5)
-        self.declare_parameter('critic_row', [0, 1])
-        self.declare_parameter('vel_linear_drive', 0.2)
-        self.declare_parameter('vel_linear_count', 0.1)
-        self.declare_parameter('vel_linear_turn', 0.1)
-        self.declare_parameter('x_min_turn_and_exit', -0.2)
-        self.declare_parameter('x_max_turn_and_exit', 1.15)
-        self.declare_parameter('y_min_turn_and_exit', 0.1)
-        self.declare_parameter('y_max_turn_and_exit', 0.75)
-        self.declare_parameter('x_min_counting_rows', -0.2)
-        self.declare_parameter('x_max_counting_rows', 1.15)
-        self.declare_parameter('y_min_counting_rows', 0.1)
-        self.declare_parameter('y_max_counting_rows', 0.75)
-        self.declare_parameter('x_min_turn_to_row', -0.2)
-        self.declare_parameter('x_max_turn_to_row', 1.15)
-        self.declare_parameter('y_min_turn_to_row', 0.1)
-        self.declare_parameter('y_max_turn_to_row', 0.75)
-        self.declare_parameter('x_min_turn_to_row_critic', -0.2)
-        self.declare_parameter('x_max_turn_to_row_critic', 1.15)
-        self.declare_parameter('y_min_turn_to_row_critic', 0.1)
-        self.declare_parameter('y_max_turn_to_row_critic', 0.75)
-
-        
-        # Hier deklarierst du den Parameter pattern
-        self.declare_parameter('pattern_steps', [3, 1, 1, 1, 1, 1])
-        self.declare_parameter('pattern_direction', ['L', 'R', 'L', 'R', 'L', 'R'])
-
-        # Initialize parameters
+        # Parameter abrufen
         self.x_min = self.get_parameter('x_min_drive_in_row').get_parameter_value().double_value
         self.x_max = self.get_parameter('x_max_drive_in_row').get_parameter_value().double_value
         self.y_min = self.get_parameter('y_min_drive_in_row').get_parameter_value().double_value
@@ -70,13 +73,14 @@ class FieldRobotNavigator(Node):
         self.vel_linear_count = self.get_parameter('vel_linear_count').get_parameter_value().double_value
         self.vel_linear_turn = self.get_parameter('vel_linear_turn').get_parameter_value().double_value
         
-        # Initialize state variables
+        # state variables deklarieren
         self.current_state = 'drive_in_row'
         self.pattern_steps = self.get_parameter('pattern_steps').get_parameter_value().integer_array_value
         self.pattern_direction = self.get_parameter('pattern_direction').get_parameter_value().string_array_value
-
         self.driven_row = 0
 
+    # Point Cloud Subscriber
+    # ---------------------
     def point_cloud_callback(self, msg):
         points = []
         both_sides = self.get_parameter('both_sides').get_parameter_value().string_value
@@ -128,6 +132,9 @@ class FieldRobotNavigator(Node):
         cloud = point_cloud2.create_cloud(header, fields, points)
         self.points_pub.publish(cloud)
 
+    # Timer Callback
+    # ---------------------
+    # Verwaltung des aktuellen Status und Aktivierung der entsprechenden Funktion
     def timer_callback(self):
         if self.points is not None:
             if self.current_state == 'drive_in_row':
@@ -138,9 +145,9 @@ class FieldRobotNavigator(Node):
                 self.counting_rows()
             elif self.current_state == 'turn_to_row':
                 self.turn_to_row()
-
-            
-
+        
+    # Status: drive in row
+    # ---------------------
     def drive_in_row(self):
         self.get_logger().info("Driving in row...")
         # Calculate the average distance to the robot on both sides within x and y limits
@@ -192,7 +199,8 @@ class FieldRobotNavigator(Node):
     # The other methods (turn_and_exit, counting_rows, etc.) would follow the same pattern as above.
     # Please repeat the similar transformations for the rest of the methods.
 
-
+    # Status: turn and exit
+    # ---------------------
     def turn_and_exit(self):
         self.get_logger().info("Turn and exit...")
         # Calculate the average distance to the robot on both sides within x and y limits
@@ -258,6 +266,8 @@ class FieldRobotNavigator(Node):
 
         self.cmd_vel_pub.publish(cmd_vel)
 
+    # Status: counting rows
+    # ---------------------
     def counting_rows(self):
         self.get_logger().info("counting rows...")
         # Calculate the average distance to the robot on both sides within x and y limits
@@ -307,6 +317,8 @@ class FieldRobotNavigator(Node):
             self.get_logger().info("Publishing to cmd_vel: %s"% cmd_vel)
             self.cmd_vel_pub.publish(cmd_vel)
 
+    # Status: turn to row
+    # ---------------------
     def turn_to_row(self):
         self.get_logger().info("Turn to row...")
         # Calculate the average distance to the robot on both sides within x and y limits

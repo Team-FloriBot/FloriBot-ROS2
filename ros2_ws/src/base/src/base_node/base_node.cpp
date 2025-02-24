@@ -6,6 +6,7 @@ void ExitFcn();
 int main(int argc, char** argv)
 {
     rclcpp::init(argc, argv);
+    // Erstellen des Knoten
     auto node = std::make_shared<KinematicsPublisher>(kinematics::coordinate::Front);
     std::atexit(ExitFcn);
     

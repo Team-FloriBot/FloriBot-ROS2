@@ -9,10 +9,10 @@
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <base/msg/angle.hpp>
 #include <nav_msgs/msg/odometry.hpp>
-
 #include <base/msg/wheels.hpp>
 
-class KinematicsPublisher : public rclcpp::Node  // Vererbung von rclcpp::Node statt ros::NodeHandle
+// KinematicsPublisher Node
+class KinematicsPublisher : public rclcpp::Node  
 {
 public:
     KinematicsPublisher(kinematics::coordinate Base);
@@ -21,18 +21,17 @@ public:
 private:
     void getParam();
     void createPublisherSubscriber();    
-    void PublishSpeed();  // TimerEvent in ROS2 ist TimerBase::SharedPtr
-    void CmdVelCallback(const geometry_msgs::msg::Twist::SharedPtr msg);  // Änderung zu SharedPtr
-    void SpeedCallback(const base::msg::Wheels::SharedPtr msg);  // Änderung zu SharedPtr
+    void PublishSpeed();  
+    void CmdVelCallback(const geometry_msgs::msg::Twist::SharedPtr msg);  
+    void SpeedCallback(const base::msg::Wheels::SharedPtr msg);  
 
     kinematics::ArticulatedDrive Drive_;
     base::msg::Wheels Speedmsg_;
-    //std::shared_ptr<rclcpp::Node> pNh_;  // NodeHandle wird durch Node ersetzt und als shared_ptr verwendet
     
-    rclcpp::TimerBase::SharedPtr CmdVelTimer_;  // Timer-Typen haben sich geändert
-    rclcpp::Publisher<base::msg::Wheels>::SharedPtr SpeedPublisher_;  // Publisher-Typ geändert
+    rclcpp::TimerBase::SharedPtr CmdVelTimer_; 
+    rclcpp::Publisher<base::msg::Wheels>::SharedPtr SpeedPublisher_;
     rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr OdometryPublisher_;
-    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr CmdVelSubscriber_;  // Subscriber-Typ geändert
+    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr CmdVelSubscriber_;
     rclcpp::Subscription<base::msg::Wheels>::SharedPtr SpeedSubscriber_;
 
     std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadaster_;

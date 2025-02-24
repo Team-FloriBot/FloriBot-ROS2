@@ -1,10 +1,10 @@
 #ifndef DIFFERENTIAL_DRIVE_H
 #define DIFFERENTIAL_DRIVE_H
 
-#include <rclcpp/rclcpp.hpp>  // ROS2 Header für Node und Zeit
-#include <geometry_msgs/msg/twist.hpp>  // ROS2 Nachricht
-#include <geometry_msgs/msg/pose2_d.hpp>  // ROS2 Nachricht
-#include <cmath>  // Für mathematische Operationen (Math.h zu cmath)
+#include <rclcpp/rclcpp.hpp>
+#include <geometry_msgs/msg/twist.hpp> 
+#include <geometry_msgs/msg/pose2_d.hpp>  
+#include <cmath> 
 
 #include <tf2_ros/transform_listener.h>
 #include <base/msg/wheels.hpp>
@@ -26,8 +26,8 @@ namespace kinematics
         differentialDrive();
         ~differentialDrive();
 
-        DifferentialWheelSpeed inverseKinematics(geometry_msgs::msg::Twist cmdVelMsg);  // Änderung zu ROS2 Nachricht
-        geometry_msgs::msg::Pose2D forwardKinematics(DifferentialWheelSpeed WheelSpeed, rclcpp::Time Timestamp);  // Änderung zu ROS2 Zeit
+        DifferentialWheelSpeed inverseKinematics(geometry_msgs::msg::Twist cmdVelMsg);
+        geometry_msgs::msg::Pose2D forwardKinematics(DifferentialWheelSpeed WheelSpeed, rclcpp::Time Timestamp);
         geometry_msgs::msg::Pose2D getActualPose();
         geometry_msgs::msg::Twist getSpeed();
 
@@ -35,10 +35,10 @@ namespace kinematics
         void setParam(double axesLength, double wheelDiameter);
 
     private:
-        geometry_msgs::msg::Pose2D Pose_;  // Änderung zu ROS2 Nachricht
+        geometry_msgs::msg::Pose2D Pose_;
         DifferentialWheelSpeed WheelSpeed_;
-        geometry_msgs::msg::Twist Speed_;  // Änderung zu ROS2 Nachricht
-        rclcpp::Time TimeStamp_;  // Änderung zu ROS2 Zeit
+        geometry_msgs::msg::Twist Speed_;
+        rclcpp::Time TimeStamp_;
         double axesLength_, wheelDiameter_, wheelCircumference_, wheelRadius_;
     };
 } 

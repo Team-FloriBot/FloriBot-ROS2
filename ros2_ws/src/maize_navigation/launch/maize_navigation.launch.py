@@ -6,10 +6,11 @@ from ament_index_python.packages import get_package_share_directory
 from launch.actions import DeclareLaunchArgument, LogInfo, IncludeLaunchDescription
 
 def generate_launch_description():
+    # Laden der Parameter
     params_file = os.path.join(get_package_share_directory('floribot_simulation'), 'config', 'floribot_parameter.yaml')
 
     return LaunchDescription([
-        
+        # Node starten
         Node(
             package='maize_navigation',
             executable='maize_navigation',

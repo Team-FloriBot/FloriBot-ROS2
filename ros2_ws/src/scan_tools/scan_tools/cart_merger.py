@@ -11,6 +11,8 @@ from sensor_msgs_py.point_cloud2 import create_cloud, read_points, create_cloud_
 
 
 class PointCloudTransformer(Node):
+    # Initialisierung
+    # -------------------------
     def __init__(self):
         super().__init__('point_cloud_transformer')
         
@@ -27,6 +29,8 @@ class PointCloudTransformer(Node):
         self.rear_points = None
         self.current_header = None
 
+    # Laser Scanner front Subscriber
+    # -------------------------
     def transform_callback_front(self, cloud_msg):
         try:
             merge_frame = self.get_parameter('merge_frame').get_parameter_value().string_value
@@ -40,6 +44,8 @@ class PointCloudTransformer(Node):
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as e:
             self.get_logger().warn('Error transforming point cloud: %s' % e)
 
+    # Laser Scanner rear Subscriber
+    # -------------------------
     def transform_callback_rear(self, cloud_msg):
         try:
             merge_frame = self.get_parameter('merge_frame').get_parameter_value().string_value
@@ -53,6 +59,8 @@ class PointCloudTransformer(Node):
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as e:
             self.get_logger().warn('Error transforming point cloud: %s' % e)
 
+    # Transformation
+    # -------------------------
     def transform_to_kdl(self, t):
         return PyKDL.Frame(PyKDL.Rotation.Quaternion(
             t.transform.rotation.x, t.transform.rotation.y,
@@ -60,7 +68,8 @@ class PointCloudTransformer(Node):
             PyKDL.Vector(t.transform.translation.x,
                         t.transform.translation.y,
                         t.transform.translation.z))
-        
+    # Cloud-Transformations-Funktion
+    # -------------------------    
     def do_transform_cloud(self, cloud, transform):
         t_kdl = self.transform_to_kdl(transform)
         points_out = []
@@ -70,7 +79,8 @@ class PointCloudTransformer(Node):
         res = create_cloud_xyz32(transform.header, points_out)
         return res
 
-
+    # Publishen wenn eine Punktewolke da ist
+    # -------------------------
     def check_and_publish(self):
         if self.front_points is not None and self.rear_points is not None:
             self.merge_points()
@@ -80,6 +90,8 @@ class PointCloudTransformer(Node):
             self.front_points = None
             self.rear_points = None
 
+    # Punkte zusammenführen
+    # -------------------------
     def merge_points(self):
         merged_points = []
         for point in point_cloud2.read_points(self.front_points, field_names=("x", "y", "z")):
@@ -94,7 +106,7 @@ def main(args=None):
     rclpy.init(args=args)
     node = PointCloudTransformer()
 
-   # Logge, ob der Node erfolgreich initialisiert wurde
+    # Logge, ob der Node erfolgreich initialisiert wurde
     node.get_logger().info('Node erfolgreich gestartet')
 
     node.declare_parameter('merge_frame', 'front_laser')

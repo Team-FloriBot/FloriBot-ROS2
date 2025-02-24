@@ -2,12 +2,12 @@
 #define ARTICULATED_DRIVE_H
 
 #include "drives/differential_drive.h"
-#include <rclcpp/rclcpp.hpp>  // ROS2 Header für Node und Zeit
+#include <rclcpp/rclcpp.hpp>
 
 #include <rclcpp/time.hpp>
-#include <geometry_msgs/msg/twist.hpp>  // ROS2 Nachricht
-#include <geometry_msgs/msg/pose2_d.hpp>  // ROS2 Nachricht
-#include <geometry_msgs/msg/transform_stamped.hpp>  // ROS2 Nachricht
+#include <geometry_msgs/msg/twist.hpp>
+#include <geometry_msgs/msg/pose2_d.hpp>
+#include <geometry_msgs/msg/transform_stamped.hpp>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2_ros/transform_listener.h>
 #include <tf2_ros/buffer.h>

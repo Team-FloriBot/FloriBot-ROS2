@@ -8,15 +8,14 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <stdexcept>
 
-
+// Konstruktoren
+// ----------------------
 kinematics::ArticulatedDrive::ArticulatedDrive()
 {
     clock_ = std::make_shared<rclcpp::Clock>(RCL_SYSTEM_TIME);
     tf_buffer_ = std::make_unique<tf2_ros::Buffer>(clock_);
     tf_listener_= std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 }
-
-
 kinematics::ArticulatedDrive::ArticulatedDrive(double axesLength, double wheelDiameter, coordinate Base):
         frontDrive_(axesLength, wheelDiameter), rearDrive_(axesLength, wheelDiameter), Base_(Base)
         {
@@ -28,6 +27,8 @@ kinematics::ArticulatedDrive::ArticulatedDrive(double axesLength, double wheelDi
 
 kinematics::ArticulatedDrive::~ArticulatedDrive() {}
 
+// Inverse Kinematic
+// ----------------------
 kinematics::articulatedWheelSpeed kinematics::ArticulatedDrive::inverseKinematics(geometry_msgs::msg::Twist cmdVelMsg)
 {
     articulatedWheelSpeed retVal;
@@ -48,22 +49,22 @@ kinematics::articulatedWheelSpeed kinematics::ArticulatedDrive::inverseKinematic
         //Front Speed is given
         case coordinate::Front:
             //Get latest Transforms
-
             Axes2Joint=tf_buffer_->lookupTransform("jointFront", "axesFront", rclcpp::Time(0));
             Joint2Joint=tf_buffer_->lookupTransform("jointRear", "jointFront", rclcpp::Time(0));
             Joint2Axes=tf_buffer_->lookupTransform("axesRear", "jointRear", rclcpp::Time(0));
 
-            //Get Data from the Messages, since the tf2::fromMsg-Function returns Linking-Errors with workaround
+            // Vektor für Frontaxengeschwindigkeit
             SpeedAxesFront.setValue(cmdVelMsg.linear.x,cmdVelMsg.linear.y,cmdVelMsg.linear.z);
+            //Vektor für Frontdrehgeschwindigkeit
             OmegaFront.setValue(cmdVelMsg.angular.x,cmdVelMsg.angular.y,cmdVelMsg.angular.z);
+            
+            //Vektor für Fronttranslation
             TranslationFront.setValue(-Axes2Joint.transform.translation.x, -Axes2Joint.transform.translation.y, -Axes2Joint.transform.translation.z);
+            //Vektor für Reartranslation
             TranslationRear.setValue(-Joint2Axes.transform.translation.x, -Joint2Axes.transform.translation.y, -Joint2Axes.transform.translation.z);
+            
+            //Quaternion für die Rotation
             Rotation.setValue(Joint2Joint.transform.rotation.x,Joint2Joint.transform.rotation.y, Joint2Joint.transform.rotation.z, Joint2Joint.transform.rotation.w);           
-            //tf2::fromMsg(cmdVelMsg.linear, SpeedAxesFront);
-            //tf2::fromMsg(cmdVelMsg.angular, OmegaFront);
-            //tf2::fromMsg(Axes2Joint.transform.translation,TranslationFront);
-            //tf2::fromMsg(Joint2Axes.transform.translation,TranslationRear);
-            //tf2::fromMsg(Joint2Joint.transform.rotation, Rotation);
 
 
             if (abs((double)Rotation.getAngle()>M_PI/2))
@@ -96,11 +97,17 @@ kinematics::articulatedWheelSpeed kinematics::ArticulatedDrive::inverseKinematic
             Joint2Joint=tf_buffer_->lookupTransform("jointFront", "jointRear", rclcpp::Time(0));
             Joint2Axes=tf_buffer_->lookupTransform("axesFront", "jointFront", rclcpp::Time(0));
 
-            //Get Data from the Messages, since the tf2::fromMsg-Function returns Linking-Errors with workaround
+            // Vektor für Rearaxengeschwindigkeit
             SpeedAxesRear.setValue(cmdVelMsg.linear.x,cmdVelMsg.linear.y,cmdVelMsg.linear.z);
+            // Vektor für Reardrehgeschwindigkeit
             OmegaRear.setValue(cmdVelMsg.angular.x,cmdVelMsg.angular.y,cmdVelMsg.angular.z);
+            
+            // Vektor für Reartranslation
             TranslationRear.setValue(-Axes2Joint.transform.translation.x, -Axes2Joint.transform.translation.y, -Axes2Joint.transform.translation.z);
+            // Vektor für Fronttranslation
             TranslationFront.setValue(-Joint2Axes.transform.translation.x, -Joint2Axes.transform.translation.y, -Joint2Axes.transform.translation.z);
+            
+            // Quaternion für die Rotation
             Rotation.setValue(Joint2Joint.transform.rotation.x,Joint2Joint.transform.rotation.y, Joint2Joint.transform.rotation.z, Joint2Joint.transform.rotation.w);
             
             if (abs(Rotation.getAngle()>M_PI/2))
@@ -112,19 +119,13 @@ kinematics::articulatedWheelSpeed kinematics::ArticulatedDrive::inverseKinematic
                 return retVal;
             }
             
-            //tf2::fromMsg(cmdVelMsg.linear, SpeedAxesRear);
-            //tf2::fromMsg(cmdVelMsg.angular, OmegaRear);
-            //tf2::fromMsg(Axes2Joint.transform.translation,TranslationRear);
-            //tf2::fromMsg(Joint2Axes.transform.translation,TranslationFront);
-            //tf2::fromMsg(Joint2Joint.transform.rotation, Rotation);
-
-            //Calculate Speed Joint Front
+            //Calculate Speed Joint Rear
             SpeedJointRear=SpeedAxesRear+OmegaRear.cross(TranslationRear);
 
-            //Transform Speed in JointRear, because they have to move with the same Speed
+            //Transform Speed in JointFront, because they have to move with the same Speed
             SpeedJointFront=SpeedJointRear.rotate(Rotation.getAxis(), Rotation.getAngle());
 
-            //Calculate needed Speed and Omega for AxesRear, assuming that Z and Y for the Translation from the Joint to the Axes are zero
+            //Calculate needed Speed and Omega for AxesFront, assuming that Z and Y for the Translation from the Joint to the Axes are zero
             OmegaFront.setValue(0,0,-SpeedJointFront.y()/TranslationFront.x());
             SpeedAxesFront.setValue(SpeedJointFront.x(),0,0);
             break;
@@ -144,31 +145,33 @@ kinematics::articulatedWheelSpeed kinematics::ArticulatedDrive::inverseKinematic
         return retVal;
     }
 
-    //Set Messages for further Calculation, since the toMsg returns LinkerErrors here with workaround
+    //Set Messages for further Calculation
+    // SpeedAxesFront
     FrontMsg.linear.x=SpeedAxesFront.x();
     FrontMsg.linear.y=SpeedAxesFront.y();
     FrontMsg.linear.z=SpeedAxesFront.z();
-
+    // OmegaFront
     FrontMsg.angular.x=OmegaFront.x();
     FrontMsg.angular.y=OmegaFront.y();
     FrontMsg.angular.z=OmegaFront.z();
-
+    // SpeedAxesRear
     RearMsg.linear.x=SpeedAxesRear.x();
     RearMsg.linear.y=SpeedAxesRear.y();
     RearMsg.linear.z=SpeedAxesRear.z();
-
+    // OmegaRear
     RearMsg.angular.x=OmegaRear.x();
     RearMsg.angular.y=OmegaRear.y();
     RearMsg.angular.z=OmegaRear.z();
-    //FrontMsg.linear=tf2::toMsg<tf2::Vector3, geometry_msgs::Vector3>(SpeedAxesFront);
-    //FrontMsg.angular=tf2::toMsg<tf2::Vector3, geometry_msgs::Vector3>(OmegaFront);
 
+    // Berechnung der Radgeschwindidkeiten über die Inverse (siehe differential_drive.cpp)
     retVal.Front=frontDrive_.inverseKinematics(FrontMsg);
     retVal.Rear=rearDrive_.inverseKinematics(RearMsg);
 
     return retVal;
 }
 
+// Forward Kinematic
+// ----------------------
 geometry_msgs::msg::Pose2D kinematics::ArticulatedDrive::forwardKinematics(articulatedWheelSpeed WheelSpeed, rclcpp::Time Timestamp)
 {
     geometry_msgs::msg::Pose2D FrontPose=frontDrive_.forwardKinematics(WheelSpeed.Front, Timestamp);
@@ -189,6 +192,8 @@ geometry_msgs::msg::Pose2D kinematics::ArticulatedDrive::forwardKinematics(artic
     }
 }
 
+// Parameter setzen
+// ----------------------
 void kinematics::ArticulatedDrive::setParam(double AxesLength, double WheelDiameter, coordinate Base)
 {
     frontDrive_.setParam(AxesLength, WheelDiameter);
@@ -196,7 +201,8 @@ void kinematics::ArticulatedDrive::setParam(double AxesLength, double WheelDiame
     Base_=Base;
 }
 
-
+// Aktuelle Position zurückgeben
+// ----------------------
 geometry_msgs::msg::Pose2D kinematics::ArticulatedDrive::getActualPose(coordinate Frame)
 {
     switch (Base_)
@@ -212,6 +218,8 @@ geometry_msgs::msg::Pose2D kinematics::ArticulatedDrive::getActualPose(coordinat
     }
 }
 
+// Aktuelle Geschwindigkeit zurückgeben
+// ----------------------
 geometry_msgs::msg::Twist kinematics::ArticulatedDrive::getSpeed()
 {
     switch (Base_)

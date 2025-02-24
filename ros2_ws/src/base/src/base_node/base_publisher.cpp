@@ -10,20 +10,30 @@
 #include <tf2_ros/transform_listener.h>
 #include <memory>
 
+// Klassendefinition des Kinematics Node
+
 KinematicsPublisher::KinematicsPublisher(kinematics::coordinate Base)
 : Node("Kinematics")
 {
-
+    // Parameter erhalten
     getParam();
+    // Drive Parameter setzen
     Drive_.setParam(AxesLength_, WheelDiameter_, Base);
+    // Publisher und Subscriber erstellen
     createPublisherSubscriber();
+    // tf Broadcaster erstellen
     tf_broadaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
+    // Timer für PublishSpped Publisher
     CmdVelTimer_ = this->create_wall_timer(std::chrono::milliseconds(100), std::bind(&KinematicsPublisher::PublishSpeed, this));
 
 }
 
 KinematicsPublisher::~KinematicsPublisher() {}
 
+// Publisher
+// ---------------------------
+// Published Speed der Räder
+// läuft alle 100ms
 void KinematicsPublisher::PublishSpeed()
 {
     base::msg::Wheels tmp;
@@ -42,37 +52,49 @@ void KinematicsPublisher::PublishSpeed()
     Speedmsg_.rear_left = 0;
 }
 
+// Parameter einlesen
+// ---------------------------
 void KinematicsPublisher::getParam()
 {
     this->get_parameter_or("axesLength", AxesLength_, 0.4);
     this->get_parameter_or("wheelDiameter", WheelDiameter_, 0.4);
 }
 
+// Publisher und Subscriber erstellen
+// ---------------------------
 void KinematicsPublisher::createPublisherSubscriber()
 {
+    // Odometry Publisher
     OdometryPublisher_ = this->create_publisher<nav_msgs::msg::Odometry>("/odom", 1);
+    // Speed Publisher
     SpeedPublisher_ = this->create_publisher<base::msg::Wheels>("engine/targetSpeed", 1);
-
+    // CmdVel Subscriber
     CmdVelSubscriber_ = this->create_subscription<geometry_msgs::msg::Twist>(
         "cmd_vel", 1, std::bind(&KinematicsPublisher::CmdVelCallback, this, std::placeholders::_1));
-
+    // Speed Subscriber
     SpeedSubscriber_ = this->create_subscription<base::msg::Wheels>(
         "engine/actualSpeed", 1, std::bind(&KinematicsPublisher::SpeedCallback, this, std::placeholders::_1));
 }
 
+// CmdVel Subscriber
+// ---------------------------
+// Berechnet Speed der Räder aus cmd_vel topic
 void KinematicsPublisher::CmdVelCallback(const geometry_msgs::msg::Twist::SharedPtr msg)
 {
     kinematics::articulatedWheelSpeed Wheelspeed;
-
+    // Berechnung der Wheelspeed über die Inverse (siehe articulated_drive.cpp)
     Wheelspeed = Drive_.inverseKinematics(*msg);
 
+    // Zusammenstellen der Nachricht für Speed Publisher
     Speedmsg_.front_left = Wheelspeed.Front.leftWheel;
     Speedmsg_.front_right = Wheelspeed.Front.rightWheel;
-
     Speedmsg_.rear_left = Wheelspeed.Rear.leftWheel;
     Speedmsg_.rear_right = Wheelspeed.Rear.rightWheel;
 }
 
+// Speed Subscriber
+// ---------------------------
+// Berechnet Odometry und Transformationsmatrix aus aktuellen Rad Speed
 void KinematicsPublisher::SpeedCallback(const base::msg::Wheels::SharedPtr msg)
 {
     kinematics::articulatedWheelSpeed ActualSpeed;
