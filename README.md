@@ -199,9 +199,10 @@ sudo apt update
 sudo apt upgrade
 ```
 # Bekannte Fehler:
+Fehler beim Bauen der Bridge:
 /usr/bin/ld: libros1_bridge.so: undefined reference to `ros1_bridge::Factory<controller_manager_msgs::ControllerState_<std::allocator<void> >, controller_manager_msgs::msg::ControllerState_<std::allocator<void> > >::convert_1_to_2(controller_manager_msgs::ControllerState_<std::allocator<void> > const&, controller_manager_msgs::msg::ControllerState_<std::allocator<void> >&)'
 
---> im Terminal folgendes ausführen:
+--> im Terminal folgendes ausführen und bridge erneut bauen:
 ```
 sudo apt remove ros-foxy-controller-manager-msgs
 ```
