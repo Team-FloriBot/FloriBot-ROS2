@@ -1,7 +1,7 @@
 
 ## Floribot Simulation
 
-Dieser Branch stellt den Versuch dar, die komplette Simulation in ROS2 zu migrieren. Dazu wurde in ROS 2 Humble gearbeitet.
+Dieser Branch stellt den Versuch dar, die komplette Simulation in ROS2 zu migrieren. Dazu wurde in ROS 2 Humble und Gazebo Ignition gearbeitet.
 Jedoch treten zurzeit noch einige Fehler auf die noch behebt werden müssen.
 
 # Requirements
