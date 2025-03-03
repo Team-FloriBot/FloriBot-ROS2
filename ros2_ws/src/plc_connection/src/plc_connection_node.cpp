@@ -4,8 +4,13 @@ void ExitFcn();
 
 int main(int argc, char** argv)
 {
+    // Initialisiere ROS2
     rclcpp::init(argc, argv); 
+
+    // Erstelle einen shared pointer für den PlcConnectionNode
     auto  node = std::make_shared<PlcConnectionNode>();
+
+    // Registriere die Exit-Funktion
     std::atexit(ExitFcn);
 
     try

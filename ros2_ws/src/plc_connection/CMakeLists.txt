@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.5)
 project(plc_connection)
 
-# Default to C++14
+# Standardmäßig auf C++14 setzen
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
 endif()
 
-# Find ament packages and dependencies
+# Ament-Pakete und Abhängigkeiten finden
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(tf2 REQUIRED)
@@ -16,13 +16,13 @@ find_package(geometry_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(base REQUIRED)
 
-# Add service files
+# Dienstdateien hinzufügen
 rosidl_generate_interfaces(plc_connection
   "srv/GetCount.srv"
   DEPENDENCIES std_msgs
 )
 
-
+# Include-Verzeichnisse
 include_directories(
   include
   ${rclcpp_INCLUDE_DIRS}
@@ -35,11 +35,12 @@ include_directories(
   ${CMAKE_BINARY_DIR}/rosidl_generator_cpp/${PROJECT_NAME}
 )
 
-
+# Abhängigkeiten und Include-Verzeichnisse exportieren
 ament_export_dependencies(rosidl_default_runtime)
 ament_export_include_directories(${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_cpp)
 ament_export_include_directories(include)
 
+# Bibliothekstargets hinzufügen
 add_library(plc_connection_lib
   src/plc_connection_lib.cpp
 )
@@ -50,27 +51,28 @@ add_library(socket
   src/network/socket/socket.cpp
 )
 
+# Ausführbares Target hinzufügen
 add_executable(${PROJECT_NAME}_node src/${PROJECT_NAME}_node.cpp)
 
-
-# Link dependencies
-
-
+# Abhängigkeiten zur socket-Bibliothek verlinken
 target_link_libraries(socket
   rclcpp::rclcpp
 )
 
+# Abhängigkeiten zur udp_socket-Bibliothek verlinken
 target_link_libraries(udp_socket
   rclcpp::rclcpp
   socket
 )
 
+# Abhängigkeiten zur plc_connection_lib-Bibliothek verlinken
 target_link_libraries(plc_connection_lib
   rclcpp::rclcpp
   socket
   udp_socket
 )
 
+# Abhängigkeiten zum ausführbaren Target verlinken
 target_link_libraries(${PROJECT_NAME}_node
   rclcpp::rclcpp
   udp_socket
@@ -78,9 +80,10 @@ target_link_libraries(${PROJECT_NAME}_node
   plc_connection_lib
 )
 
+# Paketabhängigkeiten für das ausführbare Target angeben
 ament_target_dependencies(${PROJECT_NAME}_node rclcpp base tf2 tf2_ros std_msgs geometry_msgs)
 
-
+# ROSIDL-Schnittstellen für Bibliotheken angeben
 rosidl_target_interfaces(plc_connection_lib
   plc_connection "rosidl_typesupport_cpp"
 )
@@ -97,23 +100,23 @@ rosidl_target_interfaces(udp_socket
   plc_connection "rosidl_typesupport_cpp"
 )
 
-#
-
-# Add install targets
+# Installationsziele für das ausführbare Target hinzufügen
 install(TARGETS
   ${PROJECT_NAME}_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
+# Installationsziele für das Launch-Verzeichnis hinzufügen
 install(DIRECTORY
   launch
   DESTINATION share/${PROJECT_NAME}
 )
 
+# Installationsziele für das Include-Verzeichnis hinzufügen
 install(
   DIRECTORY include/
   DESTINATION include
 )
 
-# Ament export
+# Paket exportieren
 ament_package()

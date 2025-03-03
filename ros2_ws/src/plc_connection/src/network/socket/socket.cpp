@@ -1,320 +1,313 @@
 #include "network/socket/socket.h"
 #include <rclcpp/rclcpp.hpp>
 
-
-//Standardconstructor
+// Standardkonstruktor
 OwnSocket::Socket::Socket()
 {   
-    //Initialize Socket
-    SocketID_=-1;
-    Passive_=false;
-    Connected_=false;
+    // Initialisiere den Socket
+    SocketID_ = -1;
+    Passive_ = false;
+    Connected_ = false;
 }
 
-//Constructor with Connectiontype
+// Konstruktor mit Verbindungstyp
 OwnSocket::Socket::Socket(Connection Type)
 {
-    //Initialize Values
-    SocketID_=-1;
-    Passive_=false;
-    Connected_=false;
+    // Initialisiere Werte
+    SocketID_ = -1;
+    Passive_ = false;
+    Connected_ = false;
 
-    //Initialize Socket
+    // Initialisiere den Socket
     init(Type);
 }
 
-//Destructor
+// Destruktor
 OwnSocket::Socket::~Socket()
 {
-    //close Socket before deleting object
+    // Schließe den Socket vor dem Löschen des Objekts
     closeSocket();
 }
 
-//initialize Socket
+// Initialisiere den Socket
 void OwnSocket::Socket::init(Connection Type)
 {
-    //create temporary variables
+    // Erstelle temporäre Variablen
     struct sockaddr_in ownAddr;
     socklen_t len;
 
-    //Check if Socket is already initialized
-    if(SocketID_>0) closeSocket();
+    // Überprüfe, ob der Socket bereits initialisiert ist
+    if (SocketID_ > 0) closeSocket();
 
-    //Initialize Socket depending on Connectiontype
+    // Initialisiere den Socket je nach Verbindungstyp
     switch (Type)
     {
         case TCP:
-            SocketID_=socket(AF_INET, SOCK_STREAM, 0);
+            SocketID_ = socket(AF_INET, SOCK_STREAM, 0);
             break;
         case UDP:
-            SocketID_=socket(AF_INET, SOCK_DGRAM, 0);
+            SocketID_ = socket(AF_INET, SOCK_DGRAM, 0);
             break;
     }
 
-    //Check if Socket was created succesfull
+    // Überprüfe, ob der Socket erfolgreich erstellt wurde
     if (SocketID_ <= 0) throw std::runtime_error("Socket is not valid");
 
-    //Get Socket Data from System
+    // Hole Socket-Daten vom System
     getsockname(SocketID_, (sockaddr*)&ownAddr, &len);
 
-    //Safe Socket Data
+    // Speichere Socket-Daten
     OwnAddress_.IP.clear();
-    OwnAddress_.IP+=inet_ntoa(ownAddr.sin_addr);
-    OwnAddress_.Port=ntohs(ownAddr.sin_port);
+    OwnAddress_.IP += inet_ntoa(ownAddr.sin_addr);
+    OwnAddress_.Port = ntohs(ownAddr.sin_port);
 
-    //Safe Socket Type
-    Type_=Type;
+    // Speichere den Socket-Typ
+    Type_ = Type;
 }
 
-//Set Timeout for receiving Data
+// Setze Timeout für den Empfang von Daten
 void OwnSocket::Socket::setReceiveTime(int usec, int sec)
 {
-    //Create temporary Variables
+    // Erstelle temporäre Variablen
     struct timeval tv;
 
-    //Set Time Variable
+    // Setze die Zeitvariable
     tv.tv_sec = sec;       
     tv.tv_usec = usec; 
-    //Set timeout for Socket     
-    if (setsockopt(SocketID_, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv,sizeof(struct timeval))<0) throw std::runtime_error("Can not set Timeout");
-
+    // Setze Timeout für den Socket     
+    if (setsockopt(SocketID_, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof(struct timeval)) < 0) throw std::runtime_error("Can not set Timeout");
 }
 
-//Connect Socket with target
+// Verbinde den Socket mit dem Ziel
 void OwnSocket::Socket::connectTo(Address* IP)
 {
-    //create temporary variables
+    // Erstelle temporäre Variablen
     struct sockaddr_in server;
 
-    if (!checkAddress(IP)) throw std::runtime_error("Invalid Addressparameter");
-    //Set Server Connection data
-    server.sin_family=AF_INET;
-	server.sin_addr.s_addr=inet_addr(IP->IP.c_str());
-	server.sin_port=htons(IP->Port);
+    if (!checkAddress(IP)) throw std::runtime_error("Invalid Address parameter");
+    // Setze Server-Verbindungsdaten
+    server.sin_family = AF_INET;
+    server.sin_addr.s_addr = inet_addr(IP->IP.c_str());
+    server.sin_port = htons(IP->Port);
 
-    //Connect to Server
-    if (connect(SocketID_,(struct sockaddr *) &server, sizeof(server)<0)) throw std::runtime_error("Can not Connect to IP "+IP->IP);
-    
-    else Connected_=true;
+    // Verbinde zum Server
+    if (connect(SocketID_, (struct sockaddr *) &server, sizeof(server) < 0)) throw std::runtime_error("Can not Connect to IP " + IP->IP);
+    else Connected_ = true;
 }
 
-//Close socket
+// Schließe den Socket
 void OwnSocket::Socket::closeSocket()
 {
-    //Check if Socket is connected
-    if (SocketID_>0)
+    // Überprüfe, ob der Socket verbunden ist
+    if (SocketID_ > 0)
     {  
-        //close Socket
+        // Schließe den Socket
         close(SocketID_);
 
-        //reset Socket data
-        OwnAddress_.Port=0;
+        // Setze Socket-Daten zurück
+        OwnAddress_.Port = 0;
         OwnAddress_.IP.clear();
-        SocketID_=0;
-	    Connected_=false;
+        SocketID_ = 0;
+        Connected_ = false;
     }
 }
 
-//Check if Socket is connected
+// Überprüfe, ob der Socket verbunden ist
 bool OwnSocket::Socket::connected()
 {
     return Connected_;
 }
 
-//Check if SocketID is valid
+// Überprüfe, ob die Socket-ID gültig ist
 bool OwnSocket::Socket::socketOk()
 {
-    return (SocketID_>0);
+    return (SocketID_ > 0);
 }
 
-//write Data
-void OwnSocket::Socket::write(uint8_t* Data, int length, Address* Target=NULL)
+// Schreibe Daten
+void OwnSocket::Socket::write(uint8_t* Data, int length, Address* Target = NULL)
 {
-    //Check Socket status  
+    // Überprüfe den Socket-Status  
     if (Passive_) throw std::runtime_error("Writing on passive Socket");
     if (!socketOk()) throw std::runtime_error("Socket is not valid");
 
-    //Check if connected
+    // Überprüfe, ob verbunden
     if (Connected_)
     {
-        //Send Data
-        if (send(SocketID_, Data, length,0)<0) throw std::runtime_error("Sending Data failed");
+        // Sende Daten
+        if (send(SocketID_, Data, length, 0) < 0) throw std::runtime_error("Sending Data failed");
     }
     else
     {
-        //Check if it should be connected
-        if (Type_==TCP) throw std::runtime_error("TCP Socket has to be connected to send Data");
+        // Überprüfe, ob eine Verbindung erforderlich ist
+        if (Type_ == TCP) throw std::runtime_error("TCP Socket has to be connected to send Data");
 
-        //Check Address to send to
-        if (Target->IP.empty()||!checkAddress(Target)) throw std::runtime_error("No vaild IP-Address to send Data to");
+        // Überprüfe die Adresse zum Senden
+        if (Target->IP.empty() || !checkAddress(Target)) throw std::runtime_error("No valid IP-Address to send Data to");
 
         struct sockaddr_in target;
 
-        //Set Data for Target
-        target.sin_family=AF_INET;
-	    target.sin_addr.s_addr=inet_addr(Target->IP.c_str());
-	    target.sin_port=htons(Target->Port);
+        // Setze Daten für das Ziel
+        target.sin_family = AF_INET;
+        target.sin_addr.s_addr = inet_addr(Target->IP.c_str());
+        target.sin_port = htons(Target->Port);
 
-        //Send data
+        // Sende Daten
+        int s = sendto(SocketID_, Data, length, 0, (struct sockaddr*)&target, sizeof(target));
 
-        int s=sendto(SocketID_, Data, length,0, (struct sockaddr*)&target, sizeof(target));
-
-        if (s<0) 
+        if (s < 0) 
         {
             std::stringstream strs;
-            strs<<"Error while sending message to "<<Target->IP<<":"<<Target->Port;
+            strs << "Error while sending message to " << Target->IP << ":" << Target->Port;
             throw std::runtime_error(strs.str());
-        
         }
     }   
 }
 
-//Read Data on Socket
-void OwnSocket::Socket::read(uint8_t* Data, int length, Address* Source=NULL)
+// Lese Daten vom Socket
+void OwnSocket::Socket::read(uint8_t* Data, int length, Address* Source = NULL)
 {
-    //Check Socket
+    // Überprüfe den Socket
     if (!socketOk()) throw std::runtime_error("Socket is not valid");
 
-    //Check if an active connection is needed to receive messages
-    if (Type_==TCP && !Connected_) throw std::runtime_error("Socket has to be connected to receive Data");
+    // Überprüfe, ob eine aktive Verbindung erforderlich ist, um Nachrichten zu empfangen
+    if (Type_ == TCP && !Connected_) throw std::runtime_error("Socket has to be connected to receive Data");
 
     socklen_t len;
     struct sockaddr_in source;
 
-    //receive Data and get Sourceaddress
-    if (recvfrom(SocketID_, Data, length,0, (struct sockaddr*)&source, &len)<0) throw std::runtime_error("Error while receiving Data"); 
+    // Empfange Daten und erhalte die Quelladresse
+    if (recvfrom(SocketID_, Data, length, 0, (struct sockaddr*)&source, &len) < 0) throw std::runtime_error("Error while receiving Data"); 
 
-    //Write Sourceaddress data for further use
-    
-    if (Source!=NULL)
+    // Schreibe die Quelladressdaten für die weitere Verwendung
+    if (Source != NULL)
     {
         Source->IP.clear();
-        Source->IP+=inet_ntoa(source.sin_addr);
-        Source->Port=ntohs(source.sin_port);
+        Source->IP += inet_ntoa(source.sin_addr);
+        Source->Port = ntohs(source.sin_port);
     }
 }
 
-//Get Own Address 
+// Hole eigene Adresse 
 void OwnSocket::Socket::getAddress(Address* Target)
 {
     Target->IP.clear();
-    Target->IP+=OwnAddress_.IP;
-    Target->Port=OwnAddress_.Port;
+    Target->IP += OwnAddress_.IP;
+    Target->Port = OwnAddress_.Port;
 }
 
-//Bind specified IP-Address and Port
+// Binde die angegebene IP-Adresse und den Port
 void OwnSocket::Socket::bindAddress(Address* IPParam)
 {
     struct sockaddr_in Addr;
 
-    if (!checkAddress(IPParam)) throw std::runtime_error("Invalid IP Parameter Address: "+ IPParam->IP+ " Port: "+ std::to_string(IPParam->Port));
+    if (!checkAddress(IPParam)) throw std::runtime_error("Invalid IP Parameter Address: " + IPParam->IP + " Port: " + std::to_string(IPParam->Port));
 
-    //Prepare Data to set Address data
-    Addr.sin_family=AF_INET;
+    // Bereite Daten vor, um die Adressdaten zu setzen
+    Addr.sin_family = AF_INET;
 
-    if(IPParam->IP.empty())
-        Addr.sin_addr.s_addr=INADDR_ANY;
+    if (IPParam->IP.empty())
+        Addr.sin_addr.s_addr = INADDR_ANY;
     else
-	    Addr.sin_addr.s_addr=inet_addr(IPParam->IP.c_str());
+        Addr.sin_addr.s_addr = inet_addr(IPParam->IP.c_str());
     
-    Addr.sin_port=htons(IPParam->Port);
+    Addr.sin_port = htons(IPParam->Port);
 
-    //Bind Address to Socket
-    if (bind(SocketID_, (sockaddr*)&Addr, sizeof(Addr))<0) 
-                throw std::runtime_error("Error while binding Address "+ IPParam->IP+ " with Port " + std::to_string(IPParam->Port));
+    // Binde die Adresse an den Socket
+    if (bind(SocketID_, (sockaddr*)&Addr, sizeof(Addr)) < 0) 
+                throw std::runtime_error("Error while binding Address " + IPParam->IP + " with Port " + std::to_string(IPParam->Port));
     else
     {
-        //Change saved Socket data
+        // Ändere gespeicherte Socket-Daten
         OwnAddress_.IP.clear();
-        OwnAddress_.IP+=IPParam->IP;
-        OwnAddress_.Port=IPParam->Port;
+        OwnAddress_.IP += IPParam->IP;
+        OwnAddress_.Port = IPParam->Port;
     }   
 }
 
-//Accept incoming connection request
+// Akzeptiere eingehende Verbindungsanfragen
 OwnSocket::Socket* OwnSocket::Socket::acceptConnection()
 {
-    //Create temporary variables
+    // Erstelle temporäre Variablen
     struct sockaddr_in NewSock;
-    socklen_t len=sizeof(NewSock);
+    socklen_t len = sizeof(NewSock);
     int newID;
 
-    //Accept connection
-    if (newID=accept(SocketID_, (sockaddr*)&NewSock, &len)<0) throw std::runtime_error("Socket can not accept connections");
+    // Akzeptiere Verbindung
+    if (newID = accept(SocketID_, (sockaddr*)&NewSock, &len) < 0) throw std::runtime_error("Socket can not accept connections");
 
-    //Return Socketobject for the new connection
+    // Gib ein Socket-Objekt für die neue Verbindung zurück
     return new Socket(newID, Type_);
 }
 
-//Set Socket to listening Socket 
+// Setze Socket auf Lauschen
 void OwnSocket::Socket::listenPort(int queuesSize)
 {
-    //Set Socket
-    if (listen(SocketID_, queuesSize)<0) throw std::runtime_error("Socket can not listen");
-    Passive_=true;
+    // Setze den Socket
+    if (listen(SocketID_, queuesSize) < 0) throw std::runtime_error("Socket can not listen");
+    Passive_ = true;
 }
 
-//internal Constructor for accepting connections
+// Interner Konstruktor für akzeptierte Verbindungen
 OwnSocket::Socket::Socket(int ID, Connection Type)
 {
-    //temporary variables
+    // Temporäre Variablen
     struct sockaddr_in OwnSock;
     socklen_t len;
 
-    //Write Data to Object
-    SocketID_=ID;
+    // Schreibe Daten in das Objekt
+    SocketID_ = ID;
     getsockname(SocketID_, (sockaddr*)&OwnSock, &len);
 
     OwnAddress_.IP.clear();
-    OwnAddress_.IP+=inet_ntoa(OwnSock.sin_addr);
-    OwnAddress_.Port=ntohs(OwnSock.sin_port);
-    Connected_=true;
-    Type_=Type;
+    OwnAddress_.IP += inet_ntoa(OwnSock.sin_addr);
+    OwnAddress_.Port = ntohs(OwnSock.sin_port);
+    Connected_ = true;
+    Type_ = Type;
 }
 
-//return the connection type of the socket
+// Gib den Verbindungstyp des Sockets zurück
 OwnSocket::Connection OwnSocket::Socket::getConnectionType()
 {
     return Type_;
 }
 
-//Check the IP-address and Port number returns true if Address is ok
+// Überprüfe die IP-Adresse und die Portnummer, gibt true zurück, wenn die Adresse in Ordnung ist
 bool OwnSocket::checkAddress(Address* Addr)
 {
-    //std::cout<<Addr->IP;
-    //Iniitalize regex for checking IP-Address
+    // Initialisiere Regex zum Überprüfen der IP-Adresse
     std::regex regtest("^(?:[0-9]{1,3}[.]){3}[0-9]{1,3}$");
-    //Check Addres data
-    if(!std::regex_match(Addr->IP.begin(), Addr->IP.end(), regtest) && Addr->IP.empty()) return false;
-    if (Addr->Port<=0) return false;
+    // Überprüfe die Adressdaten
+    if (!std::regex_match(Addr->IP.begin(), Addr->IP.end(), regtest) && Addr->IP.empty()) return false;
+    if (Addr->Port <= 0) return false;
 
     return true;
 }
 
-//Change Float from host to network byte order !!Works only for 32Bit float Type!!
+// Ändere Float von Host- zu Netzwerk-Byte-Reihenfolge !!Funktioniert nur für 32-Bit-Float-Typ!!
 float OwnSocket::ntohf(float In)
 {
-    //Create temporary Variables
+    // Erstelle temporäre Variablen
     uint32_t tmp;
     float out;
 
-    //Copy float to int, change Byteorder and copy back
+    // Kopiere Float zu Int, ändere die Byte-Reihenfolge und kopiere zurück
     memcpy(&tmp, &In, sizeof(float));
-    tmp=ntohl(tmp);
+    tmp = ntohl(tmp);
     memcpy(&out, &tmp, sizeof(float));
     return out;
 }
 
-//Change float from network to host byte order !!Works only for 32Bit float Type!!
+// Ändere Float von Netzwerk- zu Host-Byte-Reihenfolge !!Funktioniert nur für 32-Bit-Float-Typ!!
 float OwnSocket::htonf(float In)
 {
-    //Create temporary Variables
+    // Erstelle temporäre Variablen
     uint32_t tmp;
     float out;
 
-    //change byte order
+    // Ändere die Byte-Reihenfolge
     memcpy(&tmp, &In, sizeof(float));
-    tmp=ntohl(tmp);
+    tmp = ntohl(tmp);
     memcpy(&out, &tmp, sizeof(float));
     return out;
 }

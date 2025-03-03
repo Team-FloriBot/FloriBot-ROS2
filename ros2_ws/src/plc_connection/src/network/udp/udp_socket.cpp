@@ -1,52 +1,53 @@
 #include "network/udp/udp_socket.h"
 
-//Standard constructor
- OwnUDP::UDPSocket::UDPSocket()
+// Standardkonstruktor
+OwnUDP::UDPSocket::UDPSocket()
 {
-    //Initialize Socket and get assigned address
+    // Initialisiere den Socket und hole die zugewiesene Adresse
     OwnSocket::Socket::init(OwnSocket::Connection::UDP);
 }
 
-//Constructor with specified address
- OwnUDP::UDPSocket::UDPSocket(Address* OwnIP)
+// Konstruktor mit angegebener Adresse
+OwnUDP::UDPSocket::UDPSocket(Address* OwnIP)
 {
-    //Initialize Socket and set IP-Address
+    // Initialisiere den Socket und setze die IP-Adresse
     OwnSocket::Socket::init(OwnSocket::Connection::UDP);
     OwnUDP::UDPSocket::bindAddress(OwnIP);
 }
 
-//assign IP-Address
- void OwnUDP::UDPSocket::bindAddress(Address* OwnIP)
+// Weist die IP-Adresse zu
+void OwnUDP::UDPSocket::bindAddress(Address* OwnIP)
 {
-    //Bind address
+    // Binde die Adresse
     OwnSocket::Socket::bindAddress(OwnIP);
 }
 
-//Send Data
+// Sendet Daten
 void OwnUDP::UDPSocket::write(uint8_t* Data, int length, Address* IP)
 {
     OwnSocket::Socket::write(Data, length, IP);   
 }
 
-//read Data
+// Liest Daten
 void OwnUDP::UDPSocket::read(uint8_t* Data, int length, Address* IP)
 {
     OwnSocket::Socket::read(Data, length, IP);
 }
 
-//Return own IP-Address
+// Gibt die eigene IP-Adresse zurück
 void OwnUDP::UDPSocket::getAddress(Address* IP)
 {
     IP->IP.clear();
-    IP->IP+=OwnAddress_.IP;
-    IP->Port=OwnAddress_.Port;
+    IP->IP += OwnAddress_.IP;
+    IP->Port = OwnAddress_.Port;
 }
 
+// Setzt die Empfangszeit
 void OwnUDP::UDPSocket::setReceiveTime(int usec, int sec)
 {
     OwnSocket::Socket::setReceiveTime(usec, sec);
 }
 
-//Destructor
+// Destruktor
 OwnUDP::UDPSocket::~UDPSocket()
 {}
