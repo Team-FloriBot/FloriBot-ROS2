@@ -1,4 +1,4 @@
-#include "network/udp/udp_socket.h"
+#include "network/udp/udp_socket.hpp"
 
 // Standardkonstruktor
 OwnUDP::UDPSocket::UDPSocket()

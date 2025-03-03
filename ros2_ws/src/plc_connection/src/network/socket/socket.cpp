@@ -1,4 +1,4 @@
-#include "network/socket/socket.h"
+#include "network/socket/socket.hpp"
 #include <rclcpp/rclcpp.hpp>
 
 // Standardkonstruktor

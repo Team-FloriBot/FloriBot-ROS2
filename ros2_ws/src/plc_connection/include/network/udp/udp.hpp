@@ -1,7 +1,7 @@
 #ifndef OWN_UDP_H
 #define OWN_UDP_H
 
-#include "network/socket/socket.h"
+#include "network/socket/socket.hpp"
 
 namespace OwnUDP
 {

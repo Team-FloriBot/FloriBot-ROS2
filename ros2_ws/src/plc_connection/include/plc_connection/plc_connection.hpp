@@ -1,7 +1,7 @@
 #ifndef PLC_CONNECTION_OBJ_H
 #define PLC_CONNECTION_OBJ_H
 
-#include "network/udp/udp_socket.h"
+#include "network/udp/udp_socket.hpp"
 #include <linux/if_link.h>
 #include <ifaddrs.h>
 #include <math.h>

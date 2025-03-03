@@ -1,7 +1,6 @@
-```cpp name=plc_connection_node.cpp
 #include "plc_connection/plc_connection.hpp"
-#include "network/udp/udp_socket.h"
-#include "network/socket/socket.h"
+#include "network/udp/udp_socket.hpp"
+#include "network/socket/socket.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include <cstdlib>
 #include <memory>
