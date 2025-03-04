@@ -14,6 +14,7 @@ def generate_launch_description():
                 get_package_share_directory('base'), 'launch'),
                 '/base_node.launch.py'])
         ),
+        """
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([os.path.join(
                 get_package_share_directory('floribot'), 'launch'),
@@ -56,6 +57,7 @@ def generate_launch_description():
                 'IPAddress': '192.168.0.51'
             }.items()
         ),
+        """
         # Include plc_connection Launch
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([os.path.join(

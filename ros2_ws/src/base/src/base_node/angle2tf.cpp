@@ -57,7 +57,7 @@ private:
             Wheels_actual_.rear_left = msg->velocity[3];
             Wheels_actual_.rear_right = msg->velocity[4];
 
-            ActualSpeed_->publish(Wheels_actual_);
+            //ActualSpeed_->publish(Wheels_actual_);
         }
     }
 
