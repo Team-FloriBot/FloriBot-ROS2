@@ -11,6 +11,8 @@ def generate_launch_description():
         DeclareLaunchArgument('rearLength', default_value='-0.38'),
         DeclareLaunchArgument('wheelDiameter', default_value='0.280'),
         DeclareLaunchArgument('axesLength', default_value='0.335'),
+        DeclareLaunchArgument('frontLaserLength', default_value='0.387'),
+        DeclareLaunchArgument('rearLaserLength', default_value='-0.387'),
         
         # Knoten: base_node
         Node(
@@ -22,6 +24,12 @@ def generate_launch_description():
                 {'wheelDiameter': -0.38},
                 {'axesLength': -0.38}
             ]
+        ),
+        Node(
+            package='base',
+            executable='angle2tf',
+            name='angle2tf',
+            output='screen'
         ),
         # tf2 static_transform_publisher Knoten
         Node(
@@ -45,6 +53,19 @@ def generate_launch_description():
             output='screen',
             arguments=['0', '0', '0', '0', '0', '0', '1', 'base_link', 'axesFront']
         ),
-
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            name='AxesFront2LaserFront',
+            output='screen',
+            arguments=[LaunchConfiguration('frontLaserLength'), '0', '0', '0', '0', '0', '1', 'axesFront', 'laserFront']
+        ),
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            name='AxesRear2LaserRear',
+            output='screen',
+            arguments=[LaunchConfiguration('rearLaserLength'), '0', '0', '0', '0', '0', '1', 'axesRear', 'laserRear']
+        ),
     ])
 
