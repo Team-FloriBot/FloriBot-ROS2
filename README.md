@@ -1,4 +1,4 @@
-In diesem Branch wird die Migration auf dem FloriBot durchgeführt. Die Packages in diesem Branch sind genauso bereits auf dem FloriBot angelegt. Auf dem Roboter befindet sich ROS 2 Foxy
+Der realrobot_ros2-Branch ist eine light-weight Version des Projektes in Foxy, die es ermöglicht, den FloriBot direkt über die Konsole zu steuern und ist so bereits auf dem FloriBot abgelegt. Durch das manuelle Publizieren von Nachrichten kann der Roboter gezielt bewegt werden, ohne eine vollständige Steuerung zu benötigen. Der Branch dient als Grundlage für die Weiterentwicklung auf dem realen FloriBot und ermöglicht Tests sowie die schrittweise Integration neuer Funktionen.
 
 ## Nächste Schritte
 
