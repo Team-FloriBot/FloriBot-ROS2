@@ -1,3 +1,4 @@
+Dieser Branch beinhaltet den aktuell funktionierenden Stand der Simulation. Hier wurden base_node, base2gazebo, maize_navigation und scan_tools bereits erfolgreich migriert.
 
 ## Aktueller Migrationsstand
 
